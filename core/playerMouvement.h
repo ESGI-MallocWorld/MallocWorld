@@ -5,14 +5,13 @@
 #ifndef MALLOCWORLD_PLAYERMOUVEMENT_H
 #define MALLOCWORLD_PLAYERMOUVEMENT_H
 
+#include "./mapInterReaction.h"
+
 //import player data etc ....
 
 
 void addResource();
 
-void combat();
-
-void claimResource();
 
 /**
  * Called when mean a enemies or resource
