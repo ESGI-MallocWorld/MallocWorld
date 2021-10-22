@@ -5,4 +5,19 @@
 #ifndef MALLOCWORLD_ENEMIS_H
 #define MALLOCWORLD_ENEMIS_H
 
-#endif //MALLOCWORLD_ENEMIS_H
+
+typedef struct monster {
+
+    int ID;
+    char* name;
+    int hp;
+    int damage;
+    int exp;
+
+}monster;
+
+//system combat
+
+
+
+WORLD_ENEMIS_H
