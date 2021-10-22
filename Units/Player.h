@@ -10,9 +10,8 @@
 typedef struct Player(){
     /**
      * hp
-     * mana ?
      * inventory
-     * gold ?
+     * level
      * exp
      */
      int* location;
