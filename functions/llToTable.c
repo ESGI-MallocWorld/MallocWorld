@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include "llToTable.h"
+#include <stdio.h>
+
 struct linkedlist{
     int data;
     struct linkedlist* next;
