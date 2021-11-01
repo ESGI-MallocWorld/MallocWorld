@@ -212,6 +212,13 @@ void addEnemies(map* map) {
 }
 
 /**
+ * Add boss ID 99 in zone 3
+ * @param map
+ */
+void addBoss(map* map);
+
+
+/**
  * insert Elements on map
  * @param map
  */
