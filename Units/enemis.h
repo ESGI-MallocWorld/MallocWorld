@@ -18,6 +18,4 @@ typedef struct monster {
 
 //system combat
 
-
-
 WORLD_ENEMIS_H
