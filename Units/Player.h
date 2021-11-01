@@ -10,6 +10,7 @@
 typedef struct Player(){
     /**
      * hp
+     * atk
      * inventory
      * level
      * exp
