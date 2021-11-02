@@ -1,5 +1,5 @@
-#ifndef llToTable_h
-#define llToTable_h
+#ifndef llToTable_tableToLl.h
+#define llToTable_tableToLl.h
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,4 +17,8 @@ linkedlist* newElement(int);
 void printTable(int*,int);
 void printLinkedlist(linkedlist*);
 
+void freeLl(linkedlist*);
+
+
 #endif
+

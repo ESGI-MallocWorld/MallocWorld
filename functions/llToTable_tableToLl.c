@@ -32,25 +32,32 @@ void printTable(int* table, int size){ //function that prints a table
 }
 
 linkedlist* tableToLinkedlist(int* table, int size){
-    linkedlist* ll = malloc(sizeof(linkedlist));
-    //linkedlist* head = malloc(sizeof(linkedlist));
-    ll = newElement(*table);
+    linkedlist* ll = newElement(*table);
     linkedlist* head = ll;
-    ll = ll->next;
     for(int i = 1; i<size;i+=1){
-        ll = newElement(*(table+i));
+        ll->next = newElement(*(table+i));
         ll = ll->next;
     }
     return head;
 }
 
+
+
 void printLinkedlist(linkedlist* ll){
     while(ll!=NULL){
         printf("%d ", ll->data);
-        if (ll->next !=NULL){
-            printf("'%d' dit is de volgende ", ll->next->data);
-        }
         ll = ll->next;
     }
     printf("\n");
+}
+
+void freeLl(linkedlist* ll){
+    linkedlist* saved;
+    while(ll!=NULL){
+        printf("ici %d \n", ll->data);
+        saved = ll->next;
+        free(ll);
+        ll = saved;
+    }
+
 }
