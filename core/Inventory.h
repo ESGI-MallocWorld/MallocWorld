@@ -31,9 +31,7 @@ typedef struct Tools{
  * @return
  */
 Tools* addTool(int val){
-    Tools* tool ;
-
-    tool = malloc(sizeof(Tools));
+    Tools* tool = malloc(sizeof(Tools));
 
     tool->id = val;
     tool->durability = 10; // all tools durability is 10
@@ -49,7 +47,7 @@ Tools* addTool(int val){
             tool->name  = "Hache en bois";
             break;
         case 12:// stone pickaxe
-            tool->name  = "Pioche en pierre"
+            tool->name  = "Pioche en pierre";
             break;
         case 13:// stone machete
             tool->name  = "Serpe en pierre";
