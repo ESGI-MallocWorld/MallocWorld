@@ -16,8 +16,9 @@
  * @param max_Y
  * @return [0-max_X , 0-max_Y]
  */
-void randLocation(int *loc,map *map){
+int * randLocation(map *map){
     printf(" Progress : Generate random resource location  ... ");
+    int *loc = malloc(sizeof(int)* 2);
 
     int max_X ;
     int max_Y ;
@@ -32,6 +33,7 @@ void randLocation(int *loc,map *map){
     loc[0] =X_location;
     loc[1] =Y_location;
 
+    return loc; 
 }
 
 /**
@@ -39,55 +41,27 @@ void randLocation(int *loc,map *map){
  * @param map
  * @return
  */
-void getValidLocation(map *map , int *loc ){
+int * getValidLocation(map *map  ){
 
+    int * loc;
     int max_X = getMapRowSize(map);
     int max_Y = getMapColSize(map);
     int side_available  = 0;
     int side_occurrence = 0;
     bool valid = false;
     int **mapData;
-    while (!valid) {
-        randLocation(loc,map);
+    while (valid == false) {
+        
+        loc = randLocation(map);
         mapData = map->mapData ;
         int x = loc[0];
         int y = loc[1];
         if (mapData[x][y] == 0) {
-
-            if (x != 0) { //check left
-                side_available++;
-                if (mapData[x - 1][y] != 0) {
-                    side_occurrence++;
-                }
-            }
-
-            if (x != max_X) { //check right
-                side_available++;
-                if (mapData[x + 1][y] != 0) {
-                    side_occurrence++;
-                }
-            }
-
-            if (y != 0) { //check top
-                side_available++;
-                if (mapData[x][y - 1] != 0) {
-                    side_occurrence++;
-                }
-            }
-
-            if (y != max_Y) { //check bottom
-                side_available++;
-                if (mapData[x][y + 1] != 0) {
-                    side_occurrence++;
-                }
-            }
-
-            if (side_occurrence < side_available) {
-                valid = true;
-            }
+            valid = true;
 
         }
     }
+    return loc;
 }
 
 /**
@@ -104,7 +78,7 @@ void addPortal(map* map){
 
     //add portal travel between zone1-2
     if(level == 1 || level == 2){
-        getValidLocation(map,loc);
+        loc = getValidLocation(map);
         int x = loc[0];
         int y = loc[1];
 
@@ -113,7 +87,7 @@ void addPortal(map* map){
 
     //add portal travel between zone2-3
     if(level == 2 || level == 3){
-        getValidLocation(map,loc);
+        loc= getValidLocation(map);
         int x = loc[0];
         int y = loc[1];
 
@@ -140,7 +114,7 @@ void addPlants(map* map){
     limit = getMapMaxPlants(map);
     level = getLevel(map);
     zone1 = map->mapData;
-    getValidLocation(map,loc);
+    loc = getValidLocation(map);
 
     for (int i = 0; i < limit; ++i) {
         zone1[x][y] = level*3+0 ;
@@ -165,7 +139,7 @@ void addRocks(map* map){
     limit = getMapMaxRocks(map);
     level = getLevel(map);
     zone1 = map->mapData;
-    getValidLocation(map,loc);
+    loc = getValidLocation(map);
 
     for (int i = 0; i < limit; ++i) {
         x=loc[0];
@@ -193,7 +167,7 @@ void addTrees(map* map){
     limit = getMapMaxTrees(map);
     level = getLevel(map);
     zone1 = map->mapData;
-    getValidLocation(map,loc);
+    loc = getValidLocation(map);
 
     for (int i = 0; i < limit; ++i) {
         zone1[x][y] = level*3+2 ;
@@ -218,7 +192,7 @@ void addEnemies(map* map) {
     //add monster list and zone;
     limit = getMapMaxEnemies(map);
     zone1 = map->mapData;
-    getValidLocation(map,loc);
+    loc = getValidLocation(map);
 
     for (int i = 0; i < limit; ++i) {
         zone1[x][y] = 15 ;
@@ -312,6 +286,7 @@ map* initMapConfiguration(int zone_level){
 
     randResourcesVal = randResources();
     insertElements(map);
+
 
     printMap(map);
 
