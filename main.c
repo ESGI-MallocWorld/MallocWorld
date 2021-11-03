@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "./functions/mapAction.h"
+#include "./core/Inventory.h"
 
 
 bool gameAction();//return value "false" only when save
@@ -18,7 +19,8 @@ int main(int argc, char *argv[]){
     }
     //test
     printf("test main \n");
-    gen_map(1);
+    //gen_map(1);
+    addTool(2);
 
     //generation map
 
