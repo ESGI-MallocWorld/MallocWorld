@@ -5,7 +5,7 @@
 
 bool gameAction();//return value "false" only when save
 
-int main(int argc, char *argv[])){
+int main(int argc, char *argv[]){
 
     if(false){     //check if user have save file
         if(!chose){ // chose = 0 , overrider save
@@ -27,6 +27,6 @@ int main(int argc, char *argv[])){
         gameProgress = gameAction();
     }
 
-
+    return 0;
 
 }
