@@ -214,17 +214,99 @@ void addEnemies(map* map) {
 }
 
 /**
+ * Add boss ID 99 in zone 3
+ * @param map
+ */
+void addBoss(map* map){
+    printf("Progress : generate Boss ... \n");
+    int limit  ;
+    int level ;
+    int *loc = malloc(sizeof(int)* 2);
+    int **mapData ;
+    int x ;
+    int y ;
+
+    mapData = map->mapData;
+
+
+    loc = getValidLocation(map);
+    x = loc[0];
+    y = loc[1];
+    mapData[x][y] = 1 ;
+
+    printf("Progress : Boss have been add... \n");
+
+};
+
+/**
+ * add enemies on map
+ * @param map
+ */
+void addPlayer(map* map) {
+    printf("Progress : generate Player ... \n");
+    int limit  ;
+    int level ;
+    int *loc = malloc(sizeof(int)* 2);
+    int **zone1 ;
+    int x ;
+    int y ;
+
+    zone1 = map->mapData;
+
+    loc = getValidLocation(map);
+    x = loc[0];
+    y = loc[1];
+    zone1[x][y] = 1 ;
+
+    printf("Progress : Player have been add... \n");
+
+}
+
+/**
+ * add enemies on map
+ * @param map
+ */
+void addNPC(map* map) {
+    printf("Progress : generate NPC ... \n");
+    int limit  ;
+    int level ;
+    int *loc = malloc(sizeof(int)* 2);
+    int **zone1 ;
+    int x ;
+    int y ;
+
+    //add monster list and zone;
+    zone1 = map->mapData;
+
+    loc = getValidLocation(map);
+    x = loc[0];
+    y = loc[1];
+    zone1[x][y] = 2 ;
+
+    printf("Progress : NPC have been add ... \n",limit );
+
+}
+
+
+
+/**
  * insert Elements on map
  * @param map
  */
 void insertElements(map* map){
     printf("Progress : Insert element ... \n");
 
+    addPlayer(map);
+    addNPC(map);
     addPortal(map);
     addPlants(map);
     addRocks(map);
     addTrees(map);
     addEnemies(map);
+
+    if(3 == getLevel(map)){
+        addBoss()
+    }
 }
 
 /**
