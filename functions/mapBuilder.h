@@ -48,6 +48,7 @@ int * randLocation(map *map){
  */
 int * getValidLocation(map *map  ){
 //    printf("Processe : getting valide location \n");
+
     int * loc;
     int max_X = getMapRowSize(map);
     int max_Y = getMapColSize(map);
@@ -59,11 +60,6 @@ int * getValidLocation(map *map  ){
     while (valid == false) {
 
         loc = randLocation(map);
-//        printf("programme en vie\n");
-//        printf("loc 1 : %d , loc 2 %d \n",loc[0],loc[1]);
-//        printf("map location information \n",loc[0],loc[1]);
-//        printf("programme en vie\n");
-//        mapData = map->mapData ;
         int x = loc[0];
         int y = loc[1];
         if (map->mapData[x][y] == 0) {
@@ -71,6 +67,7 @@ int * getValidLocation(map *map  ){
         }
     }
 //    printf("im outside while \n");
+
     return loc;
 }
 
@@ -124,7 +121,6 @@ void addPlants(map* map){
     limit = getMapMaxPlants(map);
     level = getLevel(map);
     zone1 = map->mapData;
-
 
     for (int i = 0; i < limit; ++i) {
         loc = getValidLocation(map);
