@@ -5,29 +5,37 @@
 #ifndef MALLOCWORLD_INVENTORY_H
 #define MALLOCWORLD_INVENTORY_H
 
-typedef struct inventory{
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct invInfo{
     int item_id;
     int stock;
+}invInfo;
+
+typedef struct inventory{
+    invInfo* inv;
     inventory* next_item;
 }inventory;
+
 
 typedef struct Tools{
     int id;
     char* name;
     int durability;
-};
+} Tools;
 
 /**
  * Create tool and add in inventory
  * @param val
  * @return
  */
-Tools addTool(int val){
-    Tools tool ;
+Tools* addTool(int val){
+    Tools* tool ;
 
     tool = malloc(sizeof(Tools));
 
-    tool->id    = val;
+    tool->id = val;
     tool->durability = 10; // all tools durability is 10
 
     switch (val) {
