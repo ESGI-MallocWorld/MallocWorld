@@ -1,38 +1,59 @@
+
 //
-// Created by wuchi on 2021/10/13.
+//  Created by Adrian Barquero on 16/10/2021.
 //
 
-#ifndef MALLOCWORLD_PLAYMENU_H
-#define MALLOCWORLD_PLAYMENU_H
+#ifndef MALLOCWORLD_PLAYER_H
+#define MALLOCWORLD_PLAYER_H
 
-#include "../core/playerMouvement.h"
+typedef struct Level{
+    
+    int value;
+    int upgrade;
+    int exp_next;
+    Level next;
 
-typedef struct Player(){
-    /**
-     * hp
-     * mana ?
-     * inventory
-     * gold ?
-     * exp
-     */
-     int* location;
-}Player;
+} Level;
 
+typedef struct Inventory{
+    
+    int* value;
+    Inventory next;
 
-/**
- * player Menu action possible
- * @param action
- */
-void playerMenu(Player player,int action){
-    //
+} Inventory;
 
-    switch (action) {
-        case 1:
-            move();
+typedef struct Pnj{
+    
+    int* value;
+    Inventory first;
 
+} Pnj;
 
+typedef struct Player{
+    
+    int exp;
+    int* level;
+    int hp;
+    int hp_max;
+    Inventory object;
+    int* location;
 
+} Player;
+
+int * upgrade_level(int exp,int monster_exp,Level* test) {
+    
+    int x=exp+monster_exp;
+    
+    while (x>=test.exp_next) {
+        test=test.next;
     }
-
+    
+    return test.value;
+    
 }
-#endif //MALLOCWORLD_PLAYMENU_H
+
+int * level = upgrade_level();
+
+Player.level = level;
+
+#endif /* MALLOCWORLD_PLAYER_H */
