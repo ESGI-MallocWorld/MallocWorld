@@ -21,20 +21,11 @@ typedef struct inventory{
 
 
 /**
- * Create add in inventory
+ * add tool in inventory
  * @param val
  * @return
  */
 
-
-void initStartKits(){
-
-}
-
-/**
- *
- * @param val
- */
 void addToolInv(int val){
 
     switch (val) {
@@ -45,9 +36,17 @@ void addToolInv(int val){
 
     }
 
+}
 
+void initStartKits(){
 
 }
+
+/**
+ *
+ * @param val
+ */
+
 
 
 
