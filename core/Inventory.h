@@ -8,6 +8,12 @@
 #include <stdlib.h>
 #include "items.h"
 
+/*
+* The inventory of the player can  have a maximum stock of 20 for the resources and only 1 for the other items
+* The inventory of the player can be a linked list with a maximum length of 10 
+* The inventory of the PNJ has no such limits
+*/
+
 typedef struct invInfo{
     int item_id;
     int stock;

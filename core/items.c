@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdio.h>
 
+//Function that creates a tool when tool ID is given as a parameter
 Tools* createTool(int val){
     Tools *tool;
     tool = malloc(sizeof(Tools));
@@ -77,3 +78,75 @@ Tools* createTool(int val){
     }
     return tool;
 }
+
+Resource* harvestResource (int value){
+    Resource* resource = malloc(sizeof(Resource));
+    switch(value){
+        case 3:
+            resource->value = 7;
+            resource->name = "Herbe";
+            resource->usury = 10;
+            resource->tool = createTool(3);
+        break;
+
+        case 4:
+            resource->value = 6;
+            resource->name = "Pierre";
+            resource->usury = 10;
+            resource->tool = createTool(2);  
+        break;
+
+        case 5:
+            resource->value = 5;
+            resource->name = "Sapin";
+            resource->usury = 10;
+            resource->tool = createTool(4);
+        break;
+
+        case 6:
+            resource->value = 18;
+            resource->name = "Lavande";
+            resource->usury = 20;
+            resource->tool = createTool(13);             
+        break;  
+
+        case 7:
+            resource->value = 17;
+            resource->name = "Fer";
+            resource->usury = 20;
+            resource->tool = createTool(12);             
+        break;  
+
+        case 8:
+            resource->value = 16;
+            resource->name = "Hêtre";
+            resource->usury = 20;
+            resource->tool = createTool(14);             
+        break;  
+
+        case 9:
+            resource->value = 29;
+            resource->name = "Chanvre";
+            resource->usury = 40;
+            resource->tool = createTool(24);             
+        break;  
+
+        case 10:
+            resource->value = 28;
+            resource->name = "Diamant";
+            resource->usury = 40;
+            resource->tool = createTool(23);             
+        break;  
+
+        case 11:
+            resource->value = 27;
+            resource->name = "Chêne";
+            resource->usury = 40;
+            resource->tool = createTool(25);             
+        break;            
+        
+
+    }
+    return resource;
+}
+

@@ -10,13 +10,16 @@ typedef struct Tools{
 
 Tools* createTool(int);
 
-typedef struct Ressource {
+typedef struct Resource {
     
     int value;
     char* name;
-    int quantity; // MAX QUANTITY
+    int usury;  //pourcentage
+    Tools* tool; //outil avec lequel la ressource doit être recolté
     
-} Ressource;
+} Resource;
+
+Resource* harvestResource(int);
 
 typedef struct Weapon {
     
