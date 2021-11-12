@@ -5,7 +5,6 @@
 #ifndef MALLOCWORLD_INVENTORY_H
 #define MALLOCWORLD_INVENTORY_H
 
-#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct invInfo{
@@ -15,14 +14,14 @@ typedef struct invInfo{
 
 typedef struct inventory{
     invInfo* inv;
-    inventory* next_item;
+    struct inventory* next_item;
 }inventory;
-
 
 typedef struct Tools{
     int id;
     char* name;
     int durability;
+    int** craftResources; //2 rows and 2 columns; First column = resource id, second column=quantity
 } Tools;
 
 /**
@@ -31,7 +30,8 @@ typedef struct Tools{
  * @return
  */
 Tools* addTool(int val){
-    Tools* tool = malloc(sizeof(Tools));
+    Tools *tool;
+    tool = malloc(sizeof(Tools));
 
     tool->id = val;
     tool->durability = 10; // all tools durability is 10
@@ -66,7 +66,6 @@ Tools* addTool(int val){
             break;
 
     }
-
     return tool;
 }
 

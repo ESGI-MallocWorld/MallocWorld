@@ -3,11 +3,13 @@
 #include <string.h>
 #include <stdbool.h>
 #include "./functions/mapAction.h"
+#include "./core/Inventory.h"
 
 void echo(char *string){
     printf("%s \n",string);
 }
 
+bool gameAction();//return value "false" only when save
 
 void main(int argc, char *argv[]){
     int action;
