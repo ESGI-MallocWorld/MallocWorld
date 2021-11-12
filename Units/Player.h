@@ -6,16 +6,18 @@
 #define MALLOCWORLD_PLAYMENU_H
 
 #include "../core/playerMouvement.h"
+#include "../core/inventory.h"
+#include "../core/level.h"
 
-typedef struct Player(){
-    /**
-     * hp
-     * mana ?
-     * inventory
-     * gold ?
-     * exp
-     */
+
+typedef struct Player{
+    
+     int hp;
+     int exp;
+     level* level;
+     inventory* inventory;
      int* location;
+
 }Player;
 
 
