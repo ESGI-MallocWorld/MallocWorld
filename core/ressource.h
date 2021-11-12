@@ -1,8 +1,0 @@
-//
-// Created by wuchi on 2021/10/14.
-//
-
-#ifndef MALLOCWORLD_RESSOURCE_H
-#define MALLOCWORLD_RESSOURCE_H
-
-#endif //MALLOCWORLD_RESSOURCE_H
