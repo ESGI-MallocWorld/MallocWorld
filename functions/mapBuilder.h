@@ -283,7 +283,7 @@ void addNPC(map* map) {
     y = loc[1];
     zone1[x][y] = 2 ;
 
-    printf("Progress : NPC have been add ... \n",limit );
+    printf("Progress : NPC have been add ... \n");
 
 }
 
@@ -305,7 +305,7 @@ void insertElements(map* map){
     addEnemies(map);
 
     if(3 == getLevel(map)){
-        addBoss()
+        addBoss(map);
     }
 }
 
@@ -357,7 +357,6 @@ int* randResources(){
 }
 
 void printMap(map *map){
-//    printf("print map \n");
     int row , col;
     row = getMapRowSize(map);
     col = getMapColSize(map);
@@ -367,7 +366,6 @@ void printMap(map *map){
         }
         printf("\n");
     }
-
 }
 
 /**
@@ -395,12 +393,9 @@ map* initMapConfiguration(int zone_level){
     row = map->mapInformation->row_size;
     col = map->mapInformation->col_size;
     map->mapData = init_empty_map(row,col);
-//    printMap(map);
 
     randResourcesVal = randResources();
     insertElements(map);
-
-    printMap(map);
     return map;
 
 }
@@ -411,37 +406,28 @@ map* initMapConfiguration(int zone_level){
  * @param col
  * @return
  */
-int** init_zone1(){
+map* init_zone1(){
     map* map_zone1 ;
-    int **map;
 
     map_zone1 = initMapConfiguration(1);
 
-    map = map_zone1->mapData;
-
-    return map;
+    return map_zone1;
 }
 
-int** init_zone2(){
+map* init_zone2(){
     map* map_zone2 ;
-    int **map;
 
     map_zone2 = initMapConfiguration(2);
 
-    map = map_zone2->mapData;
-
-    return map;
+    return map_zone2;
 }
 
-int** init_zone3(){
+map* init_zone3(){
     map* map_zone3 ;
-    int **map;
 
     map_zone3 = initMapConfiguration(3);
 
-    map = map_zone3->mapData;
-
-    return map;
+    return map_zone3;
 }
 
 
