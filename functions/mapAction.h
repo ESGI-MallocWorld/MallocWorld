@@ -12,8 +12,8 @@
  * @return maps
  */
 
-int** gen_map(int zone_number){
-    int **map;
+map* gen_map(int zone_number){
+    map *map;
     switch (zone_number) {
         case 1:
         default:
