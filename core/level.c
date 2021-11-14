@@ -85,15 +85,7 @@ level* createLevel(int levelID){
 }
 
 //add all the levels to the game
-void addLevels(){
-    createLevel(1);
-    createLevel(2);
-    createLevel(3);
-    createLevel(4);
-    createLevel(5);
-    createLevel(6);
-    createLevel(7);
-    createLevel(8);
-    createLevel(9);
-    createLevel(10);
+void setLevel(int level){
+    createLevel(level);
 }
+

@@ -12,7 +12,8 @@
 
 typedef struct Player{
     
-     int hp;
+     int currentHp;
+     int maxHp;
      int exp;
      level* level;
      inventory* inventory;
@@ -25,16 +26,37 @@ typedef struct Player{
  * player Menu action possible
  * @param action
  */
-void playerMenu(Player player,int action){
-    //
+void playerMenu(Player,int);
 
-    switch (action) {
-        case 1:
-            move();
+int getCurrentHp(Player);
+int getMaxHp(Player);
+int getExp(Player);
+int getMaxExp(Player);
+
+level *getLevel();
+
+inventory* getInventory(Player);
+
+/**
+ * Display different type depending the usage
+ *
+ * 0 All
+ * 1 Combat (weapons, potions, armors)
+ * 2 Resources
+ * 3 Tools
+ *
+ * @param player
+ * @param type
+ */
+
+void displayInventoryByType(Player , int );
+
+/**
+ *  use in player movement
+ * @return
+ */
+int getLocation();
 
 
 
-    }
-
-}
 #endif //MALLOCWORLD_PLAYMENU_H

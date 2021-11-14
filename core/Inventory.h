@@ -16,6 +16,7 @@
 
 typedef struct invInfo{
     int item_id;
+    int durability;
     int stock;
 }invInfo;
 

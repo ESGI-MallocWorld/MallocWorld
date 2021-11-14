@@ -9,9 +9,7 @@
 
 //import player data etc ....
 
-
 void addResource();
-
 
 /**
  * Called when mean a enemies or resource
@@ -23,9 +21,7 @@ void mapInterReaction();
  * called by goUp , goRight , goDown, goLeft
  * @return PlayerLocation
  */
-int* getPlayerLocation(){
-    return player->location;
-}
+int* getPlayerLocation();
 
 /**
  * Check target location if not null call function mapInterReaction
@@ -38,28 +34,7 @@ void goLeft();
 /**
  * function called when user chose to move
  */
-void move(){
-
-    int direction ;
-
-    //ask to go
-
-    switch (direction) {
-        case 1: // go up        ↑
-            goUp();
-            break;
-        case 2: // go right     →
-            goRight();
-            break;
-        case 3: // go down      ↓
-            goDown();
-            break;
-        case 4: // go left      ←
-            goLeft();
-            break;
-    }
-}
-
+void move();
 
 
 #endif //MALLOCWORLD_PLAYERMOUVEMENT_H
