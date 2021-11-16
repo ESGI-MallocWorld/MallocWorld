@@ -1,7 +1,7 @@
+#include<stdio.h>
+#include<stdio.h>
 #include "itemsUnified.h"
-#include "Inventory.h""
-#include<stdio.h>
-#include<stdio.h>
+#include "Inventory.h"
 
 Item* initAttributes(Type type, int id, char* name,int maxZone,int durability, int craftResource1, int amount1, int craftResource2, int amount2, int toolUsuryByResource,Item* harvestTool, int damage, int resistance, int restoredHP){
     Item *item;
@@ -69,13 +69,13 @@ int checkResources (int toolId, inventory* inv){
     inventory* invNext = inv->next;
     while (inv != 0){
         while(invNext != NULL) {
-            if((inv->invInfo->item->id == tool->craftResources[0][0] && invNext->invInfo->item->id == tool->craftResources[1][0])){
-                if((inv->invInfo->item->stock == tool->craftResources[0][1] && invNext->invInfo->item->stock == tool->craftResources[1][1])){
+            if((inv->inv->item->id == tool->craftResources[0][0] && invNext->inv->item->id == tool->craftResources[1][0])){
+                if((inv->inv->item->stock == tool->craftResources[0][1] && invNext->inv->item->stock == tool->craftResources[1][1])){
                     return 1;
                     }
             }
-            if((invNext->invInfo->item->id == tool->craftResources[0][0] && inv->invInfo->item->id == tool->craftResources[1][0])){
-                if((invNext->invInfo->item->stock == tool->craftResources[0][1] && inv->invInfo->item->stock == tool->craftResources[1][1])){
+            if((invNext->inv->item->id == tool->craftResources[0][0] && inv->inv->item->id == tool->craftResources[1][0])){
+                if((invNext->inv->item->stock == tool->craftResources[0][1] && inv->inv->item->stock == tool->craftResources[1][1])){
                     return 1;
                 }
             }
@@ -89,12 +89,11 @@ int checkResources (int toolId, inventory* inv){
 
 
 
-Item* addTool(int toolId, inventory* invInfo ){
+Item* addTool(int toolId, inventory* inv ){
     Item* tool;
-
     // try to create tools
     tool = initTool(toolId);
-    if(checkResources == 1){ // check if player has this type resource in inventory or not
+    if(checkResources(toolId, inv) == 1){ // check if player has this type resource in inventory or not
        tool = initTool(toolId);
        return tool;
     }else{
