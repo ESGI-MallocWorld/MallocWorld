@@ -1,7 +1,7 @@
 #ifndef MALLOCWORLD_LEVEL_H
 #define MALLOCWORLD_LEVEL_H
 
-typedef struct level {
+    typedef struct level {
     int levelID;
     int maxHP;
     int minExp;
@@ -11,7 +11,7 @@ typedef struct level {
 
 level* createLevel(int);
 
-void addAllLevels();
+void setLevel(int);
 
 
 #endif
