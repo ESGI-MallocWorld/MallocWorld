@@ -33,7 +33,7 @@ int getMaxHp(Player);
 int getExp(Player);
 int getMaxExp(Player);
 
-level *getLevel();
+level* getLevel();
 
 inventory* getInventory(Player);
 
@@ -59,4 +59,4 @@ int getLocation();
 
 
 
-#endif //MALLOCWORLD_PLAYMENU_H
+#endif 

@@ -1,6 +1,8 @@
 #ifndef MALLOCWORLD_ITEMSUNIFIED_H
 #define MALLOCWORLD_ITEMSUNIFIED_H
 
+#include"inventory.h"
+
 typedef enum itemName{
     EpeeEnBois = 1,
     PiocheEnBois,
@@ -40,10 +42,10 @@ typedef enum itemName{
 
 
 typedef enum Type {
-    Weapon = 1,
+    Resource = 1,
     Tool,
+    Weapon,
     Armor,
-    Resource,
     Potion
 } Type;
 
@@ -51,10 +53,10 @@ typedef struct Item{
     /*
     * Common attributes
     */
-    Type itemType; // Weapon = 1; Tool = 2; Armor = 3; Resource = 4; Potion = 5
+    Type itemType; // Resource = 1; Tool = 2; Weapon = 3; Armor = 4; Potion = 5
     int id;
     char* name;
-    int maxZone; // 1=ZONE 1/2/3 2=ZONE 2/3 3=ZONE 3 
+    int zone; // 1=ZONE 1/2/3 2=ZONE 2/3 3=ZONE 3 
 
     /*
     * Specific attributes
@@ -64,7 +66,7 @@ typedef struct Item{
     int toolUsuryByResource; //// pourcentage of damage on tools when resource collected //Resource
     Item* harvestTool; //Tool with which the resource has to harvested //Resource
     int damage; //Weapon
-    int resistance; //Armor
+    int resistance; //Armor (percentage)
     int restoredHP; //Potion
 
 } Item;
@@ -76,7 +78,7 @@ Item* initAttributes(Type, int , char* ,int ,int , int , int , int , int , int ,
  *
  * @return
  */
-Item* initTool(int);
+Item* initItem(int);
 
 /**
  * Check if player has enough resource or not
@@ -85,7 +87,7 @@ Item* initTool(int);
  * @param toolId
  * @return
  */
-Item* addTool(int);
+Item* craftItem(int, inventory*);
 
 
 Item* harvestResource(int);

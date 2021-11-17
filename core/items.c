@@ -1,6 +1,6 @@
 #include "items.h"
 #include<stdio.h>
-#include<stdio.h>
+
 
 //Function that creates a tool when tool ID is given as a parameter
 Tools* initTool(int val){
@@ -81,10 +81,10 @@ Tools* initTool(int val){
 
 /*
  * TypeID's :
- * Weapon = 1
+ * Resource = 1
  * Tool = 2
- * Armor = 3
- * Resource = 4
+ * Weapon = 3
+ * Armor = 4
  * Potion = 5
  */
 
@@ -93,39 +93,39 @@ int* createListItems(){
     int ListItemsSize = 34;
     //array[itemID][typeID]
     int *ListItems = malloc(sizeof (int) * ListItemsSize);
-    ListItems[0] = 1;
+    ListItems[0] = 3;
     ListItems[1] = 2;
     ListItems[2] = 2;
     ListItems[3] = 2;
-    ListItems[4] = 4;
-    ListItems[5] = 4;
-    ListItems[6] = 4;
-    ListItems[7] = 1;
-    ListItems[8] = 1;
-    ListItems[9] = 1;
-    ListItems[10] = 3;
+    ListItems[4] = 1;
+    ListItems[5] = 1;
+    ListItems[6] = 1;
+    ListItems[7] = 3;
+    ListItems[8] = 3;
+    ListItems[9] = 3;
+    ListItems[10] = 4;
     ListItems[11] = 2;
     ListItems[12] = 2;
     ListItems[13] = 2;
     ListItems[14] = 5;
-    ListItems[15] = 4;
-    ListItems[16] = 4;
-    ListItems[17] = 4;
-    ListItems[18] = 1;
-    ListItems[19] = 1;
-    ListItems[20] = 1;
-    ListItems[21] = 3;
+    ListItems[15] = 1;
+    ListItems[16] = 1;
+    ListItems[17] = 1;
+    ListItems[18] = 3;
+    ListItems[19] = 3;
+    ListItems[20] = 3;
+    ListItems[21] = 4;
     ListItems[22] = 2;
     ListItems[23] = 2;
     ListItems[24] = 2;
     ListItems[25] = 5;
-    ListItems[26] = 4;
-    ListItems[27] = 4;
-    ListItems[28] = 4;
-    ListItems[29] = 1;
-    ListItems[30] = 1;
-    ListItems[31] = 1;
-    ListItems[32] = 3;
+    ListItems[26] = 1;
+    ListItems[27] = 1;
+    ListItems[28] = 1;
+    ListItems[29] = 3;
+    ListItems[30] = 3;
+    ListItems[31] = 3;
+    ListItems[32] = 4;
     ListItems[33] = 5;
 
     return ListItems;
