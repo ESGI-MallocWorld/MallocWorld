@@ -6,7 +6,7 @@
 #define MALLOCWORLD_INVENTORY_H
 
 #include <stdlib.h>
-#include "items.h"
+//#include "items.h"
 #include "itemsUnified.h"
 
 /*
@@ -34,7 +34,11 @@ typedef struct inventory{
     struct inventory* next;
 }inventory;
 
+int checkIfResourcePresent(Item*,inventory*);
+    
 
+
+int getSizeInv(inventory*);
 
 /**
  * add tool in inventory
@@ -42,21 +46,11 @@ typedef struct inventory{
  * @return
  */
 
-void addToolInv(int val){
+void addItemInvPlayer(Item*, inventory*);
 
-    switch (val) {
-        case '2':
+void addItemInvPNJ(Item*, inventory*);
 
-            break;
-
-
-    }
-
-}
-
-void initStartKits(){
-
-}
+void initStartKits();
 
 /**
  *

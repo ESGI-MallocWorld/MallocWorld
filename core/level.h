@@ -1,7 +1,10 @@
 #ifndef MALLOCWORLD_LEVEL_H
 #define MALLOCWORLD_LEVEL_H
 
-    typedef struct level {
+#include<stdlib.h>
+#include<stdio.h>
+
+typedef struct level {
     int levelID;
     int maxHP;
     int minExp;
