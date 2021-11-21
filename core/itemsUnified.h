@@ -73,25 +73,18 @@ typedef struct Item{
 
 Item* initAttributes(Type, int , char* ,int ,int , int , int , int , int , int ,Item* , int , int , int );
 
+char* getItemName(int); //returns the name of the item which's ID is the integer given as a parameter
 
-/**
- *
- * @return
- */
+
 Item* initItem(int);
 
-/**
- * Check if player has enough resource or not
- * if player has enough resource add tools in inventory if not free tools
- *
- * @param toolId
- * @return
- */
-Item* craftItem(int, inventory*);
+void craftItem(int, inventory*, inventory*, int);
 
+void addResourcetoInv(Item*, inventory* );
 
-Item* harvestResource(int);
+void harvestResource(int, inventory*);
 
+Item* isToolinInv(Item*,inventory*);
 
 void toString()
 

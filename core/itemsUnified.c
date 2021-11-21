@@ -2,6 +2,8 @@
 #include<stdio.h>
 #include "itemsUnified.h"
 #include "inventory.h"
+#include<string.h>
+#include<time.h>
 
 Item* initAttributes(Type type, int id, char* name,int zone,int durability, int craftResource1, int amount1, int craftResource2, int amount2, int toolUsuryByResource,Item* harvestTool, int damage, int resistance, int restoredHP){
     Item *item;
@@ -185,55 +187,109 @@ int checkResources (int itemId, inventory* inv){
     return 0;
 }
 
-
-//function that returns the item the player wants to craft a item
-Item* craftItem(int itemID, inventory* inv ){
+char* getItemName(int val){
     Item* item;
-    // try to create items
-    item = initItem(itemID);
-    if(checkResources(itemID, inv) == 1){ // check if player has the required resources in inventory or not
+    item = initItem(val); 
+    int size = strlen(item->name);  
+    char* name = malloc(sizeof(char)*size);
+    name = item->name;
+    return name;
+}
+
+
+//function that returns the item the player wants to craft if he/she has enough resources
+//choise 1 = player wants to add the item to his own inventory || choise 2 = player wants to add the item to the PNJ's inventory
+void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choise ){
+    Item* item;
+    // check if player has the required resources in his or the PNJ's inventory 
+    if(checkResources(itemID, invPlayer) == 1 || checkResources(itemID, invPNJ) == 1 ){ 
        item = initItem(itemID);
-       return item;
+       switch(choise){
+        case 1://player chooses to add the item to his own inventory
+            addItemInvPlayer(item, invPlayer, 1);
+            break;  
+        case 2://player chooses to add the item to the PNJ's inventory
+            addItemInvPNJ(item, invPNJ, 1) ;
+            break
+       }
     }else{
         // get resource name by id in the feature and add it in the message
         printf("Sorry u don\'t have the required resources");
-        return NULL;
     }
 
 }
 
-//function that returns the resource linked to the item ID given as a parameter
-Item* harvestResource (int val){
-    Item* resource; 
+//function that returns the asked for tool, if the player has it in its inventory
+Item* isToolinInv(Item* resource,inventory* inv){
+    Item* item = malloc(sizeof(Item));
+    while(inv!=NULL){
+        if(inv->inv->item->id == resource->harvestTool){
+            item = inv->inv->item;
+            return item;
+        }
+        inv = inv->next;
+    }
+    return NULL;
+}
+
+//function that adds the given resource to the given inventory if the player's inventory contains the required resource with the required durability
+//The function also decreases the durability of the tool with which the player harvest the resource. 
+void addResourcetoInv(Item* resource, inventory* inv){
+    Item *toolinInv = isToolinInv(resource, inv);
+    if (toolinInv != NULL && toolinInv->durability > 0){
+        toolinInv->durability = toolinInv->durability - (resource->harvestTool->durability * ((double)resource->toolUsuryByResource / 100));
+        int stock = (rand() % 4) + 1;
+        addItemInvPlayer(resource, inv, stock);
+    }
+    else if (toolinInv != NULL && toolinInv->durability == 0){
+        printf("The %s in your inventory needs to be fixed", resource->harvestTool->name);
+    }
+    else{
+        printf("You don't have a %s in your inventory to harvest %s", resource->harvestTool->name, resource->name);
+    }
+}
+
+//function that adds the resource (linked to the item ID given as a parameter) to the inventory of the player
+void harvestResource (int val, inventory* inv){
+    Item* resource;
+    srand ( time(NULL) ); 
     switch(val){
         case 3:
             resource = initItem(7);
+            void addResourcetoInv(resource,inv);
             break;
         case 4:
             resource = initItem(6);
+            void addResourcetoInv(resource,inv);
             break;
         case 5:
             resource = initItem(5);
+            void addResourcetoInv(resource,inv);
             break;
         case 6:
             resource = initItem(18);
+            void addResourcetoInv(resource,inv);
             break;
         case 7:
             resource = initItem(17);
+            void addResourcetoInv(resource,inv);
             break;
         case 8:
             resource = initItem(16);
+            void addResourcetoInv(resource,inv);
             break;
         case 9:
             resource = initItem(29);
+            void addResourcetoInv(resource,inv);
             break;
         case 10:
             resource = initItem(28);
+            void addResourcetoInv(resource,inv);
             break;
         case 11:
             resource = initItem(27);
+            void addResourcetoInv(resource,inv);
             break;
     }
-    return resource;
 }
 
