@@ -80,7 +80,7 @@ Item* initItem(int);
 
 void craftItem(int, inventory*, inventory*, int);
 
-void addResourcetoInv(Item*, inventory* );
+void addResourcetoInv(Item*, inventory*, inventory* );
 
 void harvestResource(int, inventory*);
 

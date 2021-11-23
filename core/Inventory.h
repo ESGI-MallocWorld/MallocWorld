@@ -46,7 +46,7 @@ int getSizeInv(inventory*);
  * @return
  */
 
-void addItemInvPlayer(Item*, inventory*, int);
+int addItemInvPlayer(Item*, inventory*, int);
 
 void addItemInvPNJ(Item*, inventory*, int);
 
@@ -55,6 +55,14 @@ void displayInventory(Type, inventory*);
 void displayEntireInv(inventory*);
 
 void moveItemFromInvPlayerToInvPNJ(Item*, inventory*, inventory*);
+
+void moveItemFromInvPNJToInvPlayer(Item*, int, inventory*, inventory*);
+
+int getStockItem(int, inventory*);
+
+int deleteItemFromInv(Item*, inventory*, int);
+
+void deleteElFromLinkedList(inventory*, Item*);
 
 void initStartKits();
 

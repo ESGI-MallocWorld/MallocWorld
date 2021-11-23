@@ -149,42 +149,25 @@ Item* initItem(int val){
 }
 
 //function that checks if the inventory of the player contains the required resources for the item he wants to create
-int checkResources (int itemId, inventory* inv){
+int checkResources (int itemId, inventory* invPlayer, inventory* invPNJ){
     Item* item;
     item = initItem(itemId);
-    inventory* invNext = inv->next;
-    if(item->craftResources[1][0] != 0){ //If the item needs 2 types of resources to be crafted
-            while (inv != NULL){
-                while(invNext != NULL) {
-                    if((inv->inv->item->id == item->craftResources[0][0] && invNext->inv->item->id == item->craftResources[1][0])){
-                        if((inv->inv->stock == item->craftResources[0][1] && invNext->inv->stock == item->craftResources[1][1])){
-                            // + FREE MALLOC!
-                            return 1;
-                            }
-                    }
-                    if((invNext->inv->item->id == item->craftResources[0][0] && inv->inv->item->id == item->craftResources[1][0])){
-                        if((invNext->inv->stock == item->craftResources[0][1] && inv->inv->stock == item->craftResources[1][1])){
-                            // + FREE MALLOC!
-                            return 1;
-                        }
-                    }
-                    invNext = invNext->next;
-                }
-                
-                inv = inv->next;
-            }
+    int idCraftRes1 = item->craftResources[0][0];
+    int idCraftRes2 = item->craftResources[1][0];
+    int stockCraftRes1 = item->craftResources[0][1];
+    int stockCraftRes2 = item->craftResources[1][1];
+    int stockInvPlayerRes1 = getStockItem(idCraftRes1, invPlayer);
+    int stockInvPlayerRes2 = getStockItem(idCraftRes2, invPlayer);
+    int stockInvPNJRes1 = getStockItem(idCraftRes1, invPNJ);
+    int stockInvPNJRes2 = getStockItem(idCraftRes2, invPNJ);
+    int stockInvTotRes1 = stockInvPlayerRes1 + stockInvPNJRes1;
+    int stockInvTotRes2 = stockInvPlayerRes2 + stockInvPNJRes2;
+    if (stockCraftRes1 > stockInvTotRes1 || stockCraftRes2 > stockInvTotRes2){//player and PNJ do not have enough resources in their inventories combined
+        return 0;
     }
-    else{ //If the item only needs 1 type of resource to be crafted
-        while(inv != NULL){
-           if((inv->inv->item->id == item->craftResources[0][0]) &&  (inv->inv->stock == item->craftResources[0][1])){
-               // + FREE MALLOC!
-               return 1;
-           }
-           inv = inv->next;
-        }
+    else{
+        return 1;
     }
-    // + FREE MALLOC!
-    return 0;
 }
 
 char* getItemName(int val){
@@ -199,22 +182,70 @@ char* getItemName(int val){
 
 //function that returns the item the player wants to craft if he/she has enough resources
 //choise 1 = player wants to add the item to his own inventory || choise 2 = player wants to add the item to the PNJ's inventory
-void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choise ){
+void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAdd){
     Item* item;
-    // check if player has the required resources in his or the PNJ's inventory 
-    if(checkResources(itemID, invPlayer) == 1 || checkResources(itemID, invPNJ) == 1 ){ 
-       item = initItem(itemID);
-       switch(choise){
+    // check if the required resources are present in the player's or the PNJ's inventory 
+    if(checkResources(itemID, invPlayer, invPNJ) == 1 ){ 
+        item = initItem(itemID);
+        int idCraftRes1 = item->craftResources[0][0];
+        Item* itemCraft1 = initItem(idCraftRes1);
+        int idCraftRes2 = item->craftResources[1][0];
+        Item* itemCraft2 = initItem(idCraftRes2);
+        int stockCraftRes1 = item->craftResources[0][1];
+        int stockCraftRes2 = item->craftResources[1][1];
+        int stockInvPlayerRes1 = getStockItem(idCraftRes1, invPlayer);
+        int stockInvPlayerRes2 = getStockItem(idCraftRes2, invPlayer);
+        int stockInvPNJRes1 = getStockItem(idCraftRes1, invPNJ);
+        int stockInvPNJRes2 = getStockItem(idCraftRes2, invPNJ);
+       switch(choiseAdd){
         case 1://player chooses to add the item to his own inventory
-            addItemInvPlayer(item, invPlayer, 1);
-            break;  
-        case 2://player chooses to add the item to the PNJ's inventory
+            if(addItemInvPlayer(item, invPlayer, 1) == 1){
+                addItemInvPlayer(item, invPlayer, 1);
+                if (stockInvPlayerRes1 >= stockCraftRes1){//player's inventory has the necessary amount of stock for Craft resource 1
+                    deleteItemFromInv(itemCraft1, invPlayer,stockCraftRes1);
+                }
+                else{//if the player's inventory doesn't have the nessecary stock, the rest of the resources will be deducted from the PNJ's inventory
+                    int difference1 = stockCraftRes1 - stockInvPlayerRes1;
+                    deleteItemFromInv(itemCraft1, invPlayer, stockInvPlayerRes1);
+                    deleteItemFromInv(itemCraft1, invPNJ, difference1);
+                }
+                if (stockInvPlayerRes2 >= stockCraftRes2){//player's inventory has the necessary amount of stock for Craft resource 2
+                    deleteItemFromInv(itemCraft2, invPlayer,stockCraftRes2);
+                }
+                else{
+                    int difference2 = stockCraftRes2 - stockInvPlayerRes2;
+                    deleteItemFromInv(itemCraft2, invPlayer, stockInvPlayerRes2);
+                    deleteItemFromInv(itemCraft2, invPNJ, difference2);
+                }
+            break;
+            } 
+            else{
+                printf("%s will be added to the PNJ's inventory", item->name)
+                choiseAdd = 2;//if the player's inventory is full the item is automatically added to the PNJ's inventory
+            } 
+        case 2://player chooses to add the item to the PNJ's inventory or there isn't enough space in the player's inventory
             addItemInvPNJ(item, invPNJ, 1) ;
-            break
+            if (stockInvPlayerRes1 >= stockCraftRes1){//player's inventory has the necessary amount of stock for Craft resource 1
+                deleteItemFromInv(itemCraft1, invPlayer,stockCraftRes1);
+            }
+            else{
+                int difference1 = stockCraftRes1 - stockInvPlayerRes1;
+                deleteItemFromInv(itemCraft1, invPlayer, stockInvPlayerRes1);
+                deleteItemFromInv(itemCraft1, invPNJ, difference1);
+            }
+            if (stockInvPlayerRes2 >= stockCraftRes2){//player's inventory has the necessary amount of stock for Craft resource 2
+                deleteItemFromInv(itemCraft2, invPlayer,stockCraftRes2);
+            }
+            else{
+                int difference2 = stockCraftRes2 - stockInvPlayerRes2;
+                deleteItemFromInv(itemCraft2, invPlayer, stockInvPlayerRes2);
+                deleteItemFromInv(itemCraft2, invPNJ, difference2);
+            }
+            break;
        }
     }else{
         // get resource name by id in the feature and add it in the message
-        printf("Sorry u don\'t have the required resources");
+        printf("Sorry u don\'t have the required resources in your inventory nor the inventory of the PNJ\n");
     }
 
 }
@@ -223,7 +254,7 @@ void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choise )
 Item* isToolinInv(Item* resource,inventory* inv){
     Item* item = malloc(sizeof(Item));
     while(inv!=NULL){
-        if(inv->inv->item->id == resource->harvestTool){
+        if(inv->inv->item->id == resource->harvestTool->id){
             item = inv->inv->item;
             return item;
         }
@@ -242,10 +273,10 @@ void addResourcetoInv(Item* resource, inventory* inv){
         addItemInvPlayer(resource, inv, stock);
     }
     else if (toolinInv != NULL && toolinInv->durability == 0){
-        printf("The %s in your inventory needs to be fixed", resource->harvestTool->name);
+        printf("The %s in your inventory needs to be fixed \n", resource->harvestTool->name);
     }
     else{
-        printf("You don't have a %s in your inventory to harvest %s", resource->harvestTool->name, resource->name);
+        printf("You don't have a %s in your inventory to harvest %s \n", resource->harvestTool->name, resource->name);
     }
 }
 
