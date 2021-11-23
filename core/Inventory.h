@@ -34,9 +34,9 @@ typedef struct inventory{
     struct inventory* next;
 }inventory;
 
-int checkIfResourcePresent(Item*,inventory*);
-    
+inventory* checkIfItemPresent(Item*,inventory*);
 
+inventory* newElement(Item*, int);
 
 int getSizeInv(inventory*);
 
@@ -46,18 +46,25 @@ int getSizeInv(inventory*);
  * @return
  */
 
-void addItemInvPlayer(Item*, inventory*);
+int addItemInvPlayer(Item*, inventory*, int);
 
-void addItemInvPNJ(Item*, inventory*);
+void addItemInvPNJ(Item*, inventory*, int);
+
+void displayInventory(Type, inventory*);
+
+void displayEntireInv(inventory*);
+
+void moveItemFromInvPlayerToInvPNJ(Item*, inventory*, inventory*);
+
+void moveItemFromInvPNJToInvPlayer(Item*, int, inventory*, inventory*);
+
+int getStockItem(int, inventory*);
+
+int deleteItemFromInv(Item*, inventory*, int);
+
+void deleteElFromLinkedList(inventory*, Item*);
 
 void initStartKits();
 
-/**
- *
- * @param val
- */
 
-
-
-
-#endif //MALLOCWORLD_INVENTORY_H
+#endif
