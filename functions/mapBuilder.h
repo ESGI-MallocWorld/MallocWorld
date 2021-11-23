@@ -1,5 +1,5 @@
 //
-// Created by wuchi on 2021/10/12.
+// Created by wuchin on 2021/10/12.
 //
 
 #ifndef MALLOCWORLD_MAPBUILDER_H
@@ -8,6 +8,7 @@
 #include "./mapParam.h"
 #include "./map.h"
 #include <stdlib.h>
+#include <time.h>
 
 /**
  * generate random location [X,Y]
@@ -16,7 +17,10 @@
  * @param max_Y
  * @return [0-max_X , 0-max_Y]
  */
-int* randLocation(int loc,map* map){
+int * randLocation(map *map){
+//    printf(" Progress : Generate random resource location  ... \n");
+    int *loc = malloc(sizeof(int)* 2);
+
     int max_X ;
     int max_Y ;
     int X_location;
@@ -24,7 +28,11 @@ int* randLocation(int loc,map* map){
 
     max_X       = getMapRowSize(map);
     max_Y       = getMapColSize(map);
+
+    srand ( time(NULL) );
+//    printf("Max x : %d, Max y : %d \n ", max_X , max_Y);
     X_location  = rand() % max_X ;
+//    printf("rand val %d \n",rand());
     Y_location  = rand() % max_Y ;
 
     loc[0] =X_location;
@@ -38,53 +46,29 @@ int* randLocation(int loc,map* map){
  * @param map
  * @return
  */
-void getValidLocation(map* map , int * loc ){
+int * getValidLocation(map *map  ){
+//    printf("Processe : getting valide location \n");
+
+    int * loc;
     int max_X = getMapRowSize(map);
     int max_Y = getMapColSize(map);
     int side_available  = 0;
     int side_occurrence = 0;
     bool valid = false;
+    int **mapData;
 
-    while (!valid) {
-        randLocation(loc,map);
+    while (valid == false) {
+
+        loc = randLocation(map);
         int x = loc[0];
         int y = loc[1];
-        if (map[x][y] == 0) {
-
-            if (x != 0) { //check left
-                side_available++;
-                if (map[x - 1][y] != 0) {
-                    side_occurrence++;
-                }
-            }
-
-            if (x != max_X) { //check right
-                side_available++;
-                if (map[x + 1][y] != 0) {
-                    side_occurrence++;
-                }
-            }
-
-            if (y != 0) { //check top
-                side_available++;
-                if (map[x][y - 1] != 0) {
-                    side_occurrence++;
-                }
-            }
-
-            if (y != max_Y) { //check bottom
-                side_available++;
-                if (map[x][y + 1] != 0) {
-                    side_occurrence++;
-                }
-            }
-
-            if (side_occurrence < side_available) {
-                valid = true;
-            }
-
+        if (map->mapData[x][y] == 0) {
+            valid = true;
         }
     }
+//    printf("im outside while \n");
+
+    return loc;
 }
 
 /**
@@ -92,27 +76,29 @@ void getValidLocation(map* map , int * loc ){
  * @param map
  */
 void addPortal(map* map){
+    printf("Progress : generate Portal ... \n");
+
     int level ;
-    int * loc = (int) malloc(sizeof(int)* 2);
+    int *loc = malloc(sizeof(int)* 2);
 
     level = getLevel(map);
-
+    printf("Get map level :%d \n",level);
     //add portal travel between zone1-2
     if(level == 1 || level == 2){
-        getValidLocation(zone1,loc);
+        loc = getValidLocation(map);
         int x = loc[0];
         int y = loc[1];
 
-        map->map[x][y] = -1;
+        map->mapData[x][y] = -1;
     }
 
     //add portal travel between zone2-3
     if(level == 2 || level == 3){
-        getValidLocation(zone1,loc);
+        loc= getValidLocation(map);
         int x = loc[0];
         int y = loc[1];
 
-        map->map[x][y] = -2;
+        map->mapData[x][y] = -2;
     }
 
 }
@@ -122,22 +108,27 @@ void addPortal(map* map){
  * @param map
  */
 void addPlants(map* map){
+    printf("Progress : generate Plants ... \n");
+
     int limit  ;
     int level ;
-    int * loc = (int) malloc(sizeof(int)* 2);
+    int * loc = malloc(sizeof(int)* 2);
     int ** zone1 ;
+    int x;
+    int y;
 
-    int x = loc[0];
-    int y = loc[1];
 
     limit = getMapMaxPlants(map);
-    level = getLevel(map)
-    zone1 = map->map;
-    getValidLocation(zone1,loc);
+    level = getLevel(map);
+    zone1 = map->mapData;
 
     for (int i = 0; i < limit; ++i) {
+        loc = getValidLocation(map);
+        x = loc[0];
+        y = loc[1];
         zone1[x][y] = level*3+0 ;
     }
+    printf("Progress : %d Plants have been generate... \n",limit );
 }
 
 /**
@@ -145,24 +136,25 @@ void addPlants(map* map){
  * @param map
  */
 void addRocks(map* map){
+    printf("Progress : generate Rocks ... \n");
     int limit  ;
     int level ;
-    int * loc = (int) malloc(sizeof(int)* 2);
+    int * loc = malloc(sizeof(int)* 2);
     int ** zone1 ;
-    int x = loc[0];
-    int y = loc[1];
+    int x ;
+    int y ;
 
 
     limit = getMapMaxRocks(map);
-    level = getLevel(map)
-    zone1 = map->map;
-    loc   = getValidLocation(zone1,loc);
-
+    level = getLevel(map);
+    zone1 = map->mapData;
     for (int i = 0; i < limit; ++i) {
-        x=loc[0];
-        y=loc[1];
+        loc = getValidLocation(map);
+        x = loc[0];
+        y = loc[1];
         zone1[x][y] = level*3+1 ;
     }
+    printf("Progress : %d Rocks have been generate... \n",limit );
 
 }
 
@@ -171,22 +163,27 @@ void addRocks(map* map){
  * @param map
  */
 void addTrees(map* map){
+    printf("Progress : generate Trees ... \n");
     int limit  ;
     int level ;
-    int * loc = (int) malloc(sizeof(int)* 2);
-    int ** zone1 ;
-    int x = loc[0];
-    int y = loc[1];
+    int *loc = malloc(sizeof(int)* 2);
+    int **zone1 ;
+    int x ;
+    int y ;
 
 
     limit = getMapMaxTrees(map);
-    level = getLevel(map)
-    zone1 = map->map;
-    loc   = getValidLocation(zone1,loc);
+    level = getLevel(map);
+    zone1 = map->mapData;
 
     for (int i = 0; i < limit; ++i) {
+        loc = getValidLocation(map);
+        x = loc[0];
+        y = loc[1];
         zone1[x][y] = level*3+2 ;
     }
+    printf("Progress : %d tree have been generate... \n",limit );
+
 }
 
 /**
@@ -194,34 +191,122 @@ void addTrees(map* map){
  * @param map
  */
 void addEnemies(map* map) {
+    printf("Progress : generate enemies ... \n");
     int limit  ;
     int level ;
-    int * loc = (int) malloc(sizeof(int)* 2);
-    int ** zone1 ;
-    int x = loc[0];
-    int y = loc[1];
+    int *loc = malloc(sizeof(int)* 2);
+    int **zone1 ;
+    int x ;
+    int y ;
 
     //add monster list and zone;
     limit = getMapMaxEnemies(map);
-    zone1 = map->map;
-    loc   = getValidLocation(zone1,loc);
+    zone1 = map->mapData;
 
-    for (int i = 0; i < limit; ++i) {
+    for (int i = 0; i < 1; ++i) {
+        loc = getValidLocation(map);
+        x = loc[0];
+        y = loc[1];
         zone1[x][y] = 15 ;
     }
+    printf("Progress : %d enemies have been generate... \n",limit );
+
 }
+
+/**
+ * Add boss ID 99 in zone 3
+ * @param map
+ */
+void addBoss(map* map){
+    printf("Progress : generate Boss ... \n");
+    int limit  ;
+    int level ;
+    int *loc = malloc(sizeof(int)* 2);
+    int **mapData ;
+    int x ;
+    int y ;
+
+    mapData = map->mapData;
+
+
+    loc = getValidLocation(map);
+    x = loc[0];
+    y = loc[1];
+    mapData[x][y] = 1 ;
+
+    printf("Progress : Boss have been add... \n");
+
+};
+
+/**
+ * add enemies on map
+ * @param map
+ */
+void addPlayer(map* map) {
+    printf("Progress : generate Player ... \n");
+    int limit  ;
+    int level ;
+    int *loc = malloc(sizeof(int)* 2);
+    int **zone1 ;
+    int x ;
+    int y ;
+
+    zone1 = map->mapData;
+
+    loc = getValidLocation(map);
+    x = loc[0];
+    y = loc[1];
+    zone1[x][y] = 1 ;
+
+    printf("Progress : Player have been add... \n");
+
+}
+
+/**
+ * add enemies on map
+ * @param map
+ */
+void addNPC(map* map) {
+    printf("Progress : generate NPC ... \n");
+    int limit  ;
+    int level ;
+    int *loc = malloc(sizeof(int)* 2);
+    int **zone1 ;
+    int x ;
+    int y ;
+
+    //add monster list and zone;
+    zone1 = map->mapData;
+
+    loc = getValidLocation(map);
+    x = loc[0];
+    y = loc[1];
+    zone1[x][y] = 2 ;
+
+    printf("Progress : NPC have been add ... \n");
+
+}
+
+
 
 /**
  * insert Elements on map
  * @param map
  */
 void insertElements(map* map){
-    addPortals(map);
+    printf("Progress : Insert element ... \n");
+
+    addPlayer(map);
+    addNPC(map);
+    addPortal(map);
     addPlants(map);
     addRocks(map);
     addTrees(map);
     addEnemies(map);
 
+    if(3 == getLevel(map)){
+        addBoss(map);
+    }
 }
 
 /**
@@ -231,18 +316,23 @@ void insertElements(map* map){
  * @return empty map
  */
 int** init_empty_map(int row , int col){
-    int** map = (int*) malloc(sizeof(int*) * row);
+    printf("Progress : generate empty map ... \n");
+
+    int** map =  malloc(sizeof(int*) * row);
 
     for (int i = 0; i < row; ++i) {
-        map[i]= (int*) malloc(sizeof(int) * col);
+        map[i]=  malloc(sizeof(int) * col);
     }
 
     // fill map with path
     for (int x = 0; x < row; ++x) {
         for (int y = 0; y < col ; ++y) {
             map[x][y] = 0;
+//            printf("%d ",map[x][y]);
         }
+//        printf("\n");
     }
+    printf("Progress : end generate empty map ... \n");
 
     return map;
 
@@ -253,15 +343,29 @@ int** init_empty_map(int row , int col){
  * @return [ Max_enemies,Max_rocks ,Max_plants , Max_trees]
  */
 int* randResources(){
-    randRatio = 3;
-    int* rand_Resources = (int)malloc(sizeof(int)*4);
-    rand_Ressource[0] = rand % randRatio +10;   //enemies
-    rand_Ressource[1] = rand % randRatio +3;    //rocks
-    rand_Ressource[2] = rand % randRatio +3;    //plants
-    rand_Ressource[3] = rand % randRatio +3;    //trees
+    printf("Progress : Setting resources limit amount  ... \n");
+    int randRatio = 3;
+    int* rand_Resource = malloc(sizeof(int)*4);
 
-    return rand_Ressource;
+    rand_Resource[0] = rand() % randRatio +10;   //enemies
+    rand_Resource[1] = rand() % randRatio +3;    //rocks
+    rand_Resource[2] = rand() % randRatio +3;    //plants
+    rand_Resource[3] = rand() % randRatio +3;    //trees
 
+    return rand_Resource;
+
+}
+
+void printMap(map *map){
+    int row , col;
+    row = getMapRowSize(map);
+    col = getMapColSize(map);
+    for (int x = 0; x < row; ++x) {
+        for (int y = 0; y < col; ++y) {
+            printf("%d ",map->mapData[x][y]);
+        }
+        printf("\n");
+    }
 }
 
 /**
@@ -270,26 +374,28 @@ int* randResources(){
  * @return map*
  */
 map* initMapConfiguration(int zone_level){
-    map* map = (map*) malloc(sizeof(map));
-    map->mapInformation = (mapParam) malloc(sizeof(mapParam));
-    map->level = (int) malloc(sizeof(int));
+    printf("init map default configuration ... \n");
+    int *randResourcesVal = malloc(sizeof(int));
+    int row , col;
 
-    int** map = gen_empty_map(row,col);
-    int* randResources = randResources();
+    map *map = malloc(sizeof(map));
+    map->mapInformation = malloc(sizeof(mapParam));
 
-    map->map = init_empty_map(row,col);
     map->level = zone_level;
 
     map->mapInformation->row_size    = 10;
     map->mapInformation->col_size    = 10;
-    map->mapInformation->max_enemies = randResources[0]+10;
-    map->mapInformation->max_rocks   = randResources[1]+3;
-    map->mapInformation->max_plants  = randResources[2]+3;
-    map->mapInformation->max_trees   = randResources[3]+3;
+    map->mapInformation->max_enemies = randResourcesVal[0]+10;
+    map->mapInformation->max_rocks   = randResourcesVal[1]+3;
+    map->mapInformation->max_plants  = randResourcesVal[2]+3;
+    map->mapInformation->max_trees   = randResourcesVal[3]+3;
 
     row = map->mapInformation->row_size;
     col = map->mapInformation->col_size;
+    map->mapData = init_empty_map(row,col);
 
+    randResourcesVal = randResources();
+    insertElements(map);
     return map;
 
 }
@@ -300,34 +406,28 @@ map* initMapConfiguration(int zone_level){
  * @param col
  * @return
  */
-int** init_zone1(){
+map* init_zone1(){
     map* map_zone1 ;
 
     map_zone1 = initMapConfiguration(1);
 
-    map = map_zone1->map;
-
-    return map;
+    return map_zone1;
 }
 
-int** init_zone2(){
+map* init_zone2(){
     map* map_zone2 ;
 
     map_zone2 = initMapConfiguration(2);
 
-    map = map_zone2->map;
-
-    return map;
+    return map_zone2;
 }
 
-int** init_zone3(){
+map* init_zone3(){
     map* map_zone3 ;
 
     map_zone3 = initMapConfiguration(3);
 
-    map = map_zone3->map;
-
-    return map;
+    return map_zone3;
 }
 
 

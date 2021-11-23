@@ -19,7 +19,7 @@ int getRowSize(mapParam* mapInformation){
 }
 
 int getColSize(mapParam* mapInformation){
-    return mapInformation->col_size
+    return mapInformation->col_size;
 }
 
 int getMaxEnemies(mapParam* mapInformation){

@@ -8,7 +8,7 @@
 #include "./mapParam.h"
 
 typedef struct map {
-    int ** map;
+    int ** mapData;
     int level;
     mapParam* mapInformation;
 }map;
@@ -18,7 +18,7 @@ int getMapRowSize(map* map){
 }
 
 int getMapColSize(map* map){
-    return map->mapInformation->col_size
+    return map->mapInformation->col_size;
 }
 
 int getMapMaxEnemies(map* map){

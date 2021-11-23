@@ -12,17 +12,20 @@
  * @return maps
  */
 
-int** gen_map(int zone_number){
-
+map* gen_map(int zone_number){
+    map *map;
     switch (zone_number) {
         case 1:
         default:
+            printf("init zone 1 ... \n");
             map = init_zone1();
             break;
         case 2:
+            printf("init zone 2 ... \n");
             map = init_zone2();
             break;
         case 3:
+            printf("init zone 3 ... \n");
             map = init_zone3();
             break;
     }
