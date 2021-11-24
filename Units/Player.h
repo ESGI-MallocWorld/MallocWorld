@@ -5,10 +5,7 @@
 #ifndef MALLOCWORLD_PLAYMENU_H
 #define MALLOCWORLD_PLAYMENU_H
 
-#include "../core/playerMouvement.h"
-#include "../core/inventory.h"
-#include "../core/level.h"
-
+typedef struct Player Player;
 
 typedef struct Player{
     
@@ -16,47 +13,41 @@ typedef struct Player{
      int maxHp;
      int exp;
      level* level;
-     inventory* inventory;
+//     inventory* inventory;
      int* location;
+
+     // getter
+     int (*getCurrentHp)(Player *this);
+     int (*getMaxHp)(Player *this);
+     int (*getExp)(Player *this);
+     int (*getMaxExp)(Player *this);
+     int* (*getLocation)(Player *this);
+     int (*getLevel)(Player *this);
+
+     // setter
+     void (*setCurrentHp)(Player *this, int val);
+     void (*setMaxHp)(Player *this, int val);
+     void (*setExp)(Player *this, int val);
+     void (*setMaxExp)(Player *this, int val);
+     void (*setLocation)(Player *this, int *val);
 
 }Player;
 
+int getPlayerCurrentHp(Player *this);
+int getPlayerMaxHp(Player *this);
+int getPlayerExp(Player *this);
+int getPlayerMaxExp(Player *this);
+int* getPlayerLocation(Player *this);
+int getPlayerLevel(Player *this);
 
-/**
- * player Menu action possible
- * @param action
- */
-void playerMenu(Player,int);
+void setPlayerCurrentHp(Player *this ,  int newVal);
+void setPlayerExp(Player *this , int newVal);
+void setPlayerMaxHp(Player *this , int newVal);
+void setPlayerMaxExp(Player *this , int newVal);
+void setPlayerLocation(Player *this , int *newVal);
+void setPlayerLevel(Player *this , level levelData);
 
-int getCurrentHp(Player);
-int getMaxHp(Player);
-int getExp(Player);
-int getMaxExp(Player);
+void LevelUp(Player *this );
 
-level* getLevel();
-
-inventory* getInventory(Player);
-
-/**
- * Display different type depending the usage
- *
- * 0 All
- * 1 Combat (weapons, potions, armors)
- * 2 Resources
- * 3 Tools
- *
- * @param player
- * @param type
- */
-
-void displayInventoryByType(Player , int );
-
-/**
- *  use in player movement
- * @return
- */
-int getLocation();
-
-
-
+Player* newPlayer();
 #endif 
