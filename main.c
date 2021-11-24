@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-//#include "./core/Inventory.h"
+#include "./core/inventory.h"
 #include "./functions/mapAction.h"
 #include "./Units/Player.c"
 

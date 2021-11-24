@@ -6,8 +6,7 @@
 #define MALLOCWORLD_INVENTORY_H
 
 #include <stdlib.h>
-//#include "items.h"
-#include "itemsUnified.h"
+
 
 /*
 * The inventory of the player can  have a maximum stock of 20 for the resources and only 1 for the other items
@@ -22,6 +21,8 @@ typedef struct invInfo{
     int stock;
 }invInfo;
 */
+typedef struct invInfo invInfo;
+typedef struct inventory inventory;
 
 typedef struct invInfo{
     Item* item;
