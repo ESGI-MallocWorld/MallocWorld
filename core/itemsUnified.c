@@ -212,10 +212,12 @@ void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAd
                     deleteItemFromInv(itemCraft2, invPlayer, stockInvPlayerRes2);
                     deleteItemFromInv(itemCraft2, invPNJ, difference2);
                 }
+            free(itemCraft1);
+            free(itemCraft2);
             break;
             } 
             else{
-                printf("%s will be added to the PNJ's inventory", item->name)
+                printf("%s will be added to the PNJ's inventory", item->name);
                 choiseAdd = 2;//if the player's inventory is full the item is automatically added to the PNJ's inventory
             } 
         case 2://player chooses to add the item to the PNJ's inventory or there isn't enough space in the player's inventory
@@ -236,6 +238,8 @@ void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAd
                 deleteItemFromInv(itemCraft2, invPlayer, stockInvPlayerRes2);
                 deleteItemFromInv(itemCraft2, invPNJ, difference2);
             }
+            free(itemCraft1);
+            free(itemCraft2);
             break;
        }
     }else{

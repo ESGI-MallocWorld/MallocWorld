@@ -51,11 +51,11 @@ int addItemInvPlayer(Item*, inventory*, int);
 
 void addItemInvPNJ(Item*, inventory*, int);
 
-void displayInventory(Type, inventory*);
+void displayInvPerType(Type, inventory*);
 
 void displayEntireInv(inventory*);
 
-void moveItemFromInvPlayerToInvPNJ(Item*, inventory*, inventory*);
+void moveItemFromInvPlayerToInvPNJ(Item*, int, inventory*, inventory*);
 
 void moveItemFromInvPNJToInvPlayer(Item*, int, inventory*, inventory*);
 

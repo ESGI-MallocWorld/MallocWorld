@@ -37,7 +37,7 @@ int addItemInvPlayer(Item* item, inventory* inv, int newStock){
     }
     int size = getSizeInv(inv);
     inventory* invExistingResource = checkIfItemPresent(item, inv);
-    if(item->itemType == Resource && invExistingResource != NULL){ //checks if item is a resource && checks if the resource is already present in the inventory
+    if((item->itemType == Resource || item->itemType == Potion) && invExistingResource != NULL){ //checks if item is a resource && checks if the resource is already present in the inventory
         if(invExistingResource->inv->stock < 20){ //checks if the player's resource inventory isn't full
             invExistingResource->inv->stock += newStock; 
         }
@@ -79,9 +79,9 @@ void addItemInvPNJ(Item* item, inventory* inv,int newStock){
     if(item == NULL){
       break;  
     int size = getSizeInv(inv);
-    inventory* invExistingResource = checkIfItemPresent(item, inv);
-    if(invExistingResource != NULL){ //checks if the item is already present in the inventory
-        invExistingResource->inv->stock += newStock;
+    inventory* invExistingItem = checkIfItemPresent(item, inv);
+    if(invExistingItem != NULL){ //checks if the item is already present in the inventory
+        invExistingItem->inv->stock += newStock;
         if (newStock == 1){
             printf("%d %s has been added to the PNJ's inventory \n", newStock, item->name);
         }
@@ -93,8 +93,11 @@ void addItemInvPNJ(Item* item, inventory* inv,int newStock){
         while(inv->next!=NULL){
             inv = inv->next;
         }
+        tempItem = initItem(item->id);
+        item->durability = tempItem->durability;//items are automatically repared when they are moved to the PNJ's inventory
         inv->next = newElement(item,newStock);//add the item to the next pointer of the last case of the linked list
-        printf("%d %s has been added to the PNJ's inventory \n", newStock, item->name)         
+        printf("%d %s has been added to the PNJ's inventory \n", newStock, item->name)
+        free(tempItem);
     } 
 }
 
