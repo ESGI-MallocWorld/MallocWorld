@@ -5,8 +5,7 @@
 #ifndef MALLOCWORLD_MAPBUILDER_H
 #define MALLOCWORLD_MAPBUILDER_H
 
-#include "./mapParam.h"
-#include "./map.h"
+#include "../core/map.c"
 #include <stdlib.h>
 #include <time.h>
 

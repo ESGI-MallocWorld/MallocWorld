@@ -1,9 +1,9 @@
 #include<stdio.h>
 #include<stdio.h>
-#include "itemsUnified.h"
-#include "inventory.h"
 #include<string.h>
 #include<time.h>
+
+#include "itemsUnified.h"
 
 Item* initAttributes(Type type, int id, char* name,int zone,int durability, int craftResource1, int amount1, int craftResource2, int amount2, int toolUsuryByResource,Item* harvestTool, int damage, int resistance, int restoredHP){
     Item *item;
@@ -27,8 +27,6 @@ Item* initAttributes(Type type, int id, char* name,int zone,int durability, int 
     return item;
 }
 
-
-//Function that creates a item when item ID is given as a parameter
 Item* initItem(int val){
     Item* item;
     switch (val) {
@@ -179,9 +177,6 @@ char* getItemName(int val){
     return name;
 }
 
-
-//function that returns the item the player wants to craft if he/she has enough resources
-//choise 1 = player wants to add the item to his own inventory || choise 2 = player wants to add the item to the PNJ's inventory
 void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAdd){
     Item* item;
     // check if the required resources are present in the player's or the PNJ's inventory 
@@ -254,8 +249,7 @@ void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAd
 
 }
 
-//function that returns the asked for tool, if the player has it in its inventory
-Item* isToolinInv(Item* resource,inventory* inv){
+Item* isToolInInv(Item* resource,inventory* inv){
     Item* item = malloc(sizeof(Item));
     while(inv!=NULL){
         if(inv->inv->item->id == resource->harvestTool->id){
@@ -267,8 +261,6 @@ Item* isToolinInv(Item* resource,inventory* inv){
     return NULL;
 }
 
-//function that adds the given resource to the given inventory if the player's inventory contains the required resource with the required durability
-//The function also decreases the durability of the tool with which the player harvest the resource. 
 void addResourcetoInv(Item* resource, inventory* inv){
     Item *toolinInv = isToolinInv(resource, inv);
     if (toolinInv != NULL && toolinInv->durability > 0){
@@ -284,7 +276,6 @@ void addResourcetoInv(Item* resource, inventory* inv){
     }
 }
 
-//function that adds the resource (linked to the item ID given as a parameter) to the inventory of the player
 void harvestResource (int val, inventory* inv){
     Item* resource;
     srand ( time(NULL) ); 

@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "inventory.h"
-//#include "itemsUnified.h"
+#include "itemsUnified.c"
 
 inventory* checkIfItemPresent(Item* item,inventory* inv){
     inventory* newInv = malloc(sizeof(inventory));
