@@ -2,25 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+//#include "./core/Inventory.h"
 #include "./functions/mapAction.h"
-#include "./core/Inventory.h"
-
-void echo(char *string){
-    printf("%s \n",string);
-}
+#include "./Units/Player.c"
 
 bool gameAction();//return value "false" only when save
 
 void main(int argc, char *argv[]){
     int action;
-    int gameProgress ;
-    echo("Chose on action to do ");
-    echo("1 : load save");
-    echo("2 : New game");
-    echo("3 : test environnement");
-    scanf("%d",&action);
-    
-    switch (action) {
+    int gameProgress;
+
+    printf("Chose on action to do \n");
+    printf("1 : load save\n");
+    printf("2 : New game\n");
+    printf("3 : test environnement\n");
+//    scanf("%d \n",action);
+
+    switch (3) {
         case 1:
             if(false){     //check if user have save file
                 if(false){ // chose = 0 , overrider save
@@ -31,19 +29,26 @@ void main(int argc, char *argv[]){
             // run game
             gameProgress = 0;
             while(gameProgress){
-            // gameProgress = gameAction();
+                // gameProgress = gameAction();
             }
             break;
         case 3:
             //test
+            printf("test player \n");
+            Player* player;
+            player = newPlayer();
+            printf("Action : display player information\n");
+            displayPlayerStats(player);
+            LevelUp(player);
+            displayPlayerStats(player);
 
             //generation map
-            printf("test main \n");
-            map *map;
-            map = gen_map(1);
-            printMap(map);
+//            printf("test main \n");
+//            map *map;
+//            map = gen_map(1);
+//            printMap(map);
 
             break;
     }
-
+    printf("end programme\n");
 }
