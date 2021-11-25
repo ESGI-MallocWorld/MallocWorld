@@ -2,7 +2,7 @@
 // Created by wuchi on 2021/11/24.
 //
 
-include "./map.h"
+#include "./map.h"
 
 int getRowSize(mapParam* mapInformation){
     return mapInformation->row_size;

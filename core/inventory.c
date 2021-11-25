@@ -3,16 +3,33 @@
 #include "inventory.h"
 #include "itemsUnified.c"
 
-inventory* checkIfItemPresent(Item* item,inventory* inv){
-    inventory* newInv = malloc(sizeof(inventory));
+inventory* newInventory(){
+    inventory* invData = malloc(sizeof(inventory));
+    return invData;
+}
+
+int getStockAmount(inventory *inventoryData){
+    return inventoryData->inv->stock ;
+}
+
+
+inventory* getInventoryByItem(Item* item,inventory* inv){
+    inventory* newInv = newInventory();
     while(inv != NULL){
         if(inv->inv->item->id == item->id){
-            newInv = inv;
-            return newInv;
+            invData = inv;
+            return invData;
         }
         inv = inv->next;
     }
     return NULL;
+}
+
+int checkIfItemPresent(Item* item,inventory* inv){
+    if(getInventoryByItem(item,inv) != NULL){
+        return 1;
+    }
+    return 0;
 }
 
 int getSizeInv(inventory* inv){
@@ -23,8 +40,14 @@ int getSizeInv(inventory* inv){
     }
 }
 
+int getStockItem(int itemID, inventory* inv){
+    inventoryData = getInventoryByItem(itemID,inv);
+    return getStockAmount(inventoryData);
+}
+
+
 inventory* newElement(Item* item, int newStock){ //function that creates a new element in a linked list
-    inventory* inv = malloc(sizeof(inventory));
+    inventory* inv = newInventory();
     inv->inv->item = item;
     inv->inv->stock = newStock; //initialises the stock to the number given as parameter;
     inv->next = NULL;
@@ -32,16 +55,12 @@ inventory* newElement(Item* item, int newStock){ //function that creates a new e
 }
 
 int addItemInvPlayer(Item* item, inventory* inv, int newStock){
-    if(item == NULL){
-      return 0;  
-    }
     int size = getSizeInv(inv);
     inventory* invExistingResource = checkIfItemPresent(item, inv);
     if((item->itemType == Resource || item->itemType == Potion) && invExistingResource != NULL){ //checks if item is a resource && checks if the resource is already present in the inventory
         if(invExistingResource->inv->stock < 20){ //checks if the player's resource inventory isn't full
             invExistingResource->inv->stock += newStock; 
-        }
-        else if(size<10){ //if the inventory is not full yet, the resource can be added ad the end of the linked list
+        }else if(size<10){ //if the inventory is not full yet, the resource can be added ad the end of the linked list
             while(inv->next!=NULL){
                 inv = inv->next;
             }
@@ -84,12 +103,10 @@ void addItemInvPNJ(Item* item, inventory* inv,int newStock){
         invExistingItem->inv->stock += newStock;
         if (newStock == 1){
             printf("%d %s has been added to the PNJ's inventory \n", newStock, item->name);
-        }
-        else{
+        }else{
             printf("%d pieces of %s have been added to the PNJ's inventory \n", newStock, item->name);
         }
-    }
-    else{//if the item isn't present in the inventory
+    }else{//if the item isn't present in the inventory
         while(inv->next!=NULL){
             inv = inv->next;
         }
@@ -99,17 +116,6 @@ void addItemInvPNJ(Item* item, inventory* inv,int newStock){
         printf("%d %s has been added to the PNJ's inventory \n", newStock, item->name)
         free(tempItem);
     } 
-}
-
-int getStockItem(int itemID, inventory* inv){
-    int stock = 0;
-    while(inv != NULL){
-        if(inv->inv->item->id == itemID){
-            stock += inv->inv->stock;
-        }
-        inv = inv->next;
-    }
-    return stock;
 }
 
 void deleteElFromLinkedList(inventory* inv, Item* item){

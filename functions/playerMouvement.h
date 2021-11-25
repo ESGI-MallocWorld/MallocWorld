@@ -5,7 +5,7 @@
 #ifndef MALLOCWORLD_PLAYERMOUVEMENT_H
 #define MALLOCWORLD_PLAYERMOUVEMENT_H
 
-#include "./mapInterReaction.h"
+#include "../core/mapInterReaction.h"
 
 //import player data etc ....
 

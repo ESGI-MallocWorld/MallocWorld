@@ -14,13 +14,6 @@
 * The inventory of the PNJ has no such limits
 */
 
-/*
-typedef struct invInfo{
-    int item_id;
-    int durability;
-    int stock;
-}invInfo;
-*/
 typedef struct invInfo invInfo;
 typedef struct inventory inventory;
 
@@ -29,17 +22,28 @@ typedef struct invInfo{
     int stock;
 }invInfo;
 
+inventory* newInventoryInfo();
 
 typedef struct inventory{
     invInfo* inv;
     struct inventory* next;
 }inventory;
 
-inventory* checkIfItemPresent(Item*,inventory*);
+inventory* newInventory();
+
+int getStockAmount(inventory *inventoryData);
+
+/**
+ * @return NULL if items didn't exist else return inventory
+ */
+inventory* getInventoryByItem(Item* item,inventory* inv);
+
+int checkIfItemPresent(Item* item,inventory* inv);
+
+int getSizeInv(inventory*);
 
 inventory* newElement(Item*, int);
 
-int getSizeInv(inventory*);
 
 /**
  * add tool in inventory

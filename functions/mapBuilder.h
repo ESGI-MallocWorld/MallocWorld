@@ -5,9 +5,9 @@
 #ifndef MALLOCWORLD_MAPBUILDER_H
 #define MALLOCWORLD_MAPBUILDER_H
 
-#include "../core/map.c"
 #include <stdlib.h>
 #include <time.h>
+#include "../core/map.c"
 
 /**
  * generate random location [X,Y]
