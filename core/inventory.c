@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
+#include<time.h>
 #include "inventory.h"
-#include "itemsUnified.c"
 
 inventory* checkIfItemPresent(Item* item,inventory* inv){
     inventory* newInv = malloc(sizeof(inventory));
@@ -77,7 +78,8 @@ int addItemInvPlayer(Item* item, inventory* inv, int newStock){
 
 void addItemInvPNJ(Item* item, inventory* inv,int newStock){
     if(item == NULL){
-      break;  
+      exit(0);
+    }
     int size = getSizeInv(inv);
     inventory* invExistingItem = checkIfItemPresent(item, inv);
     if(invExistingItem != NULL){ //checks if the item is already present in the inventory
@@ -93,10 +95,10 @@ void addItemInvPNJ(Item* item, inventory* inv,int newStock){
         while(inv->next!=NULL){
             inv = inv->next;
         }
-        tempItem = initItem(item->id);
+        Item *tempItem = initItem(item->id);
         item->durability = tempItem->durability;//items are automatically repared when they are moved to the PNJ's inventory
         inv->next = newElement(item,newStock);//add the item to the next pointer of the last case of the linked list
-        printf("%d %s has been added to the PNJ's inventory \n", newStock, item->name)
+        printf("%d %s has been added to the PNJ's inventory \n", newStock, item->name);
         free(tempItem);
     } 
 }
@@ -113,7 +115,7 @@ int getStockItem(int itemID, inventory* inv){
 }
 
 void deleteElFromLinkedList(inventory* inv, Item* item){
-    *inventory temp;
+    inventory* temp;
     if(inv->inv->item->id == item->id){ // if item is stocked in the first case of the inventory 
         temp = inv; 
         inv = inv->next;
@@ -143,17 +145,17 @@ int deleteItemFromInv(Item* item, inventory* inv, int quantity){
         return 0;
     }
     else{
-        *inventory temp;
+        inventory* temp;
         int difference = amount - inv->inv->stock;
         if(inv->inv->item->id == item->id){ // if item is stocked in the first case of the inventory
             if(difference==0){//if the demanded quantity is equal to the stock present in the first item's case
                 temp = inv; 
                 inv = inv->next;
                 free(temp);
-                printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name )
+                printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name );
                 return 1;
             }
-            if else (difference>0){ //if the demanded amount is higher than the stock present in the first item's case
+            else if (difference>0){ //if the demanded amount is higher than the stock present in the first item's case
                 amount -= inv->inv->stock; 
                 temp = inv; 
                 inv = inv->next;
@@ -162,7 +164,7 @@ int deleteItemFromInv(Item* item, inventory* inv, int quantity){
             }
             else{//if the stock in the inventory of the first item's case is higher than the demanded amount
                 inv->inv->stock -= amount;
-                printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name )
+                printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name );
                 return 1;
             }       
         }
@@ -174,10 +176,10 @@ int deleteItemFromInv(Item* item, inventory* inv, int quantity){
                     temp = inv->next;
                     inv->next = inv->next->next;
                     free(temp);
-                    printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name )
+                    printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name);
                     return 1;
                 }
-                if else (difference>0){//if the demanded amount is higher than the stock present in the next item's case
+                else if (difference>0){//if the demanded amount is higher than the stock present in the next item's case
                     amount -= inv->next->inv->stock; 
                     temp = inv->next;
                     inv->next = inv->next->next;
@@ -186,7 +188,7 @@ int deleteItemFromInv(Item* item, inventory* inv, int quantity){
                 else{//if the stock in the inventory of the next item's case is higher than the demanded amount
                     inv->next->inv->stock -= amount;
                     return 1;
-                    printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name )
+                    printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name);
                 }
 
                 
@@ -235,5 +237,169 @@ void displayInvPerType(Type type, inventory* inv){
             }
         }
         inv = inv->next;
+    }
+}
+
+//function that checks if the inventory of the player contains the required resources for the item he wants to create
+int checkResources (int itemId, inventory* invPlayer, inventory* invPNJ){
+    Item* item;
+    item = initItem(itemId);
+    int idCraftRes1 = item->craftResources[0][0];
+    int idCraftRes2 = item->craftResources[1][0];
+    int stockCraftRes1 = item->craftResources[0][1];
+    int stockCraftRes2 = item->craftResources[1][1];
+    int stockInvPlayerRes1 = getStockItem(idCraftRes1, invPlayer);
+    int stockInvPlayerRes2 = getStockItem(idCraftRes2, invPlayer);
+    int stockInvPNJRes1 = getStockItem(idCraftRes1, invPNJ);
+    int stockInvPNJRes2 = getStockItem(idCraftRes2, invPNJ);
+    int stockInvTotRes1 = stockInvPlayerRes1 + stockInvPNJRes1;
+    int stockInvTotRes2 = stockInvPlayerRes2 + stockInvPNJRes2;
+    if (stockCraftRes1 > stockInvTotRes1 || stockCraftRes2 > stockInvTotRes2){//player and PNJ do not have enough resources in their inventories combined
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
+
+void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAdd){
+    Item* item;
+    // check if the required resources are present in the player's or the PNJ's inventory 
+    if(checkResources(itemID, invPlayer, invPNJ) == 1 ){ 
+        item = initItem(itemID);
+        int idCraftRes1 = item->craftResources[0][0];
+        Item* itemCraft1 = initItem(idCraftRes1);
+        int idCraftRes2 = item->craftResources[1][0];
+        Item* itemCraft2 = initItem(idCraftRes2);
+        int stockCraftRes1 = item->craftResources[0][1];
+        int stockCraftRes2 = item->craftResources[1][1];
+        int stockInvPlayerRes1 = getStockItem(idCraftRes1, invPlayer);
+        int stockInvPlayerRes2 = getStockItem(idCraftRes2, invPlayer);
+        int stockInvPNJRes1 = getStockItem(idCraftRes1, invPNJ);
+        int stockInvPNJRes2 = getStockItem(idCraftRes2, invPNJ);
+       switch(choiseAdd){
+        case 1://player chooses to add the item to his own inventory
+            if(addItemInvPlayer(item, invPlayer, 1) == 1){
+                addItemInvPlayer(item, invPlayer, 1);
+                if (stockInvPlayerRes1 >= stockCraftRes1){//player's inventory has the necessary amount of stock for Craft resource 1
+                    deleteItemFromInv(itemCraft1, invPlayer,stockCraftRes1);
+                }
+                else{//if the player's inventory doesn't have the nessecary stock, the rest of the resources will be deducted from the PNJ's inventory
+                    int difference1 = stockCraftRes1 - stockInvPlayerRes1;
+                    deleteItemFromInv(itemCraft1, invPlayer, stockInvPlayerRes1);
+                    deleteItemFromInv(itemCraft1, invPNJ, difference1);
+                }
+                if (stockInvPlayerRes2 >= stockCraftRes2){//player's inventory has the necessary amount of stock for Craft resource 2
+                    deleteItemFromInv(itemCraft2, invPlayer,stockCraftRes2);
+                }
+                else{
+                    int difference2 = stockCraftRes2 - stockInvPlayerRes2;
+                    deleteItemFromInv(itemCraft2, invPlayer, stockInvPlayerRes2);
+                    deleteItemFromInv(itemCraft2, invPNJ, difference2);
+                }
+            free(itemCraft1);
+            free(itemCraft2);
+            break;
+            } 
+            else{
+                printf("%s will be added to the PNJ's inventory", item->name);
+                choiseAdd = 2;//if the player's inventory is full the item is automatically added to the PNJ's inventory
+            } 
+        case 2://player chooses to add the item to the PNJ's inventory or there isn't enough space in the player's inventory
+            addItemInvPNJ(item, invPNJ, 1) ;
+            if (stockInvPlayerRes1 >= stockCraftRes1){//player's inventory has the necessary amount of stock for Craft resource 1
+                deleteItemFromInv(itemCraft1, invPlayer,stockCraftRes1);
+            }
+            else{
+                int difference1 = stockCraftRes1 - stockInvPlayerRes1;
+                deleteItemFromInv(itemCraft1, invPlayer, stockInvPlayerRes1);
+                deleteItemFromInv(itemCraft1, invPNJ, difference1);
+            }
+            if (stockInvPlayerRes2 >= stockCraftRes2){//player's inventory has the necessary amount of stock for Craft resource 2
+                deleteItemFromInv(itemCraft2, invPlayer,stockCraftRes2);
+            }
+            else{
+                int difference2 = stockCraftRes2 - stockInvPlayerRes2;
+                deleteItemFromInv(itemCraft2, invPlayer, stockInvPlayerRes2);
+                deleteItemFromInv(itemCraft2, invPNJ, difference2);
+            }
+            free(itemCraft1);
+            free(itemCraft2);
+            break;
+       }
+    }else{
+        // get resource name by id in the feature and add it in the message
+        printf("Sorry u don\'t have the required resources in your inventory nor the inventory of the PNJ\n");
+    }
+
+}
+
+Item* isToolInInv(Item* resource,inventory* inv){
+    Item* item = malloc(sizeof(Item));
+    while(inv!=NULL){
+        if(inv->inv->item->id == resource->harvestTool->id){
+            item = inv->inv->item;
+            return item;
+        }
+        inv = inv->next;
+    }
+    return NULL;
+}
+
+void addResourcetoInv(Item* resource, inventory* inv){
+    Item *toolinInv = isToolInInv(resource, inv);
+    if (toolinInv != NULL && toolinInv->durability > 0){
+        toolinInv->durability = toolinInv->durability - (resource->harvestTool->durability * ((double)resource->toolUsuryByResource / 100));
+        int stock = (rand() % 4) + 1;
+        addItemInvPlayer(resource, inv, stock);
+    }
+    else if (toolinInv != NULL && toolinInv->durability == 0){
+        printf("The %s in your inventory needs to be fixed \n", resource->harvestTool->name);
+    }
+    else{
+        printf("You don't have a %s in your inventory to harvest %s \n", resource->harvestTool->name, resource->name);
+    }
+}
+
+void harvestResource (int val, inventory* inv){
+    Item* resource;
+    srand ( time(NULL) ); 
+    switch(val){
+        case 3:
+            resource = initItem(7);
+            addResourcetoInv(resource,inv);
+            break;
+        case 4:
+            resource = initItem(6);
+            addResourcetoInv(resource,inv);
+            break;
+        case 5:
+            resource = initItem(5);
+            addResourcetoInv(resource,inv);
+            break;
+        case 6:
+            resource = initItem(18);
+            addResourcetoInv(resource,inv);
+            break;
+        case 7:
+            resource = initItem(17);
+            addResourcetoInv(resource,inv);
+            break;
+        case 8:
+            resource = initItem(16);
+            addResourcetoInv(resource,inv);
+            break;
+        case 9:
+            resource = initItem(29);
+            addResourcetoInv(resource,inv);
+            break;
+        case 10:
+            resource = initItem(28);
+            addResourcetoInv(resource,inv);
+            break;
+        case 11:
+            resource = initItem(27);
+            addResourcetoInv(resource,inv);
+            break;
     }
 }
