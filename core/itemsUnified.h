@@ -86,38 +86,6 @@ char* getItemName(int val);
  */
 Item* initItem(int val);
 
-/**
- * function that returns the item the player wants to craft if he/she has enough resources
- * choise 1 = player wants to add the item to his own inventory || choise 2 = player wants to add the item to the PNJ's inventory
- * @param itemID
- * @param invPlayer
- * @param invPNJ
- * @param choiseAdd
- */
-
-void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAdd);
-
-/**
- * function that adds the given resource to the given inventory if the player's inventory contains the required resource with the required durability
- * The function also decreases the durability of the tool with which the player harvest the resource.
- * @param resource
- * @param inv
- */
-void addResourcetoInv(Item* resource, inventory* inv);
-
-/**
- * function that adds the resource (linked to the item ID given as a parameter) to the inventory of the player
- * @param val
- * @param inv
- */
-void harvestResource (int val, inventory* inv);
-
-/**
- * function that returns the asked for tool, if the player has it in its inventory
- * @return
- */
-Item* isToolInInv(Item* resource,inventory* inv);
-
-void toString()
+void toString();
 
 #endif
