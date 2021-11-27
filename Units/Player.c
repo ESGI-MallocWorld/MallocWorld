@@ -23,6 +23,9 @@ int getPlayerMaxExp(Player *this){
 int* getPlayerLocation(Player *this){
     return this->location;
 }
+inventory* getPlayerInventory(Player *this){
+    return this->inventory;
+}
 int getPlayerLevel(Player *this){
     return this->level->levelID;
 }
@@ -44,11 +47,21 @@ void setPlayerMaxExp(Player *this , int newVal){
     this->level->maxExp = newVal;
 }
 
+void setPlayerLevel(Player *this , level *levelData){
+    this->level = levelData;
+}
 void setPlayerLocation(Player *this, int *newVal){
     this->location[0] = newVal[0];
-    this->location[1] = newVal[2];
+    this->location[1] = newVal[1];
 }
-void LevelUp(Player *this){
+
+void setPlayerInventory(Player *this , inventory *inventoryData){
+    this->inventory = inventoryData;
+}
+
+
+
+void playerLevelUp(Player *this){
 
     printf("You discover a mysterious power in your body\n");
     int newLevel = this->getLevel(this) +1 ;
@@ -60,7 +73,7 @@ void LevelUp(Player *this){
     this->setMaxHp(this,newLevelData->maxHp);
     this->setCurrentHp(this,newLevelData->maxHp);
 
-    this->level = newLevelData;
+    this->setLevel(this,newLevelData);
     printf("Player level UP !!\n");
 
 }
@@ -69,18 +82,15 @@ void displayPlayerStats(Player *this){
     // add frame display in feature
     printf("| Player Information  \n");
     printf("| -----  \n");
-    printf("| Level : %d  \n",this->getLevel(this));
-    printf("| HP    : %d / %d \n",this->getCurrentHp(this),this->getMaxHp(this));
-    printf("| Exp   : %d / %d \n",this->getExp(this),this->getMaxExp(this));
+    printf("| Level : %11d  \n",this->getLevel(this));
+    printf("| HP    : %4d / %4d \n",this->getCurrentHp(this),this->getMaxHp(this));
+    printf("| Exp   : %4d / %4d \n",this->getExp(this),this->getMaxExp(this));
     printf("| -----  \n");
 }
 
-
-
-
 Player* newPlayer(){
 
-    printf("init default player stats ");
+    printf("Progress : init default player stats ");
     Player* playerData = malloc(sizeof (Player));
     level* levelData = createLevel(1);
 
@@ -91,8 +101,8 @@ Player* newPlayer(){
     playerData->maxHp = levelData->maxHp;
     playerData->exp = 0;
     playerData->level = levelData;
-    // init player inventory
-//    playerData->inventory = inventoryData;
+    playerData->location = malloc(sizeof (int)*2);
+    playerData->inventory = malloc(sizeof (inventory));
     printf(" .");
 
     // getter
@@ -102,6 +112,7 @@ Player* newPlayer(){
     playerData->getMaxExp = getPlayerMaxExp;
     playerData->getLevel = getPlayerLevel;
     playerData->getLocation = getPlayerLocation;
+    playerData->getInventory = getPlayerInventory;
     printf(" . \n");
 
     // setter
@@ -109,9 +120,15 @@ Player* newPlayer(){
     playerData->setMaxHp = setPlayerMaxHp;
     playerData->setExp = setPlayerExp;
     playerData->setMaxExp = setPlayerMaxExp;
+    playerData->setLevel = setPlayerLevel;
     playerData->setLocation = setPlayerLocation;
+    playerData->setInventory = setPlayerInventory;
 
-    printf("Player data have been init \n");
+    //method
+    playerData->levelUp= playerLevelUp;
+    playerData->displayStats = displayPlayerStats;
+
+    printf("Progress : Player data have been init \n");
     return playerData;
 }
 
