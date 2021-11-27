@@ -262,10 +262,10 @@ void moveItemFromInvPlayerToInvPNJ(Item* item, int quantity, inventory* invPlaye
 void displayEntireInv(inventory* inv){
     while(inv!=NULL){
             if(inv->inv->stock == 1){
-                printf("You have %d %s \n", inv->inv->stock, inv->inv->item->name);
+                printf( "%d. %s : %d piece \n", inv->inv->item->id, inv->inv->item->name, inv->inv->stock);
             }
             else{
-                printf("You have %d %s \ns", inv->inv->stock, inv->inv->item->name); 
+                printf( "%d. %s : %d pieces \n", inv->inv->item->id, inv->inv->item->name, inv->inv->stock);
             }
         inv = inv->next;
     }
@@ -275,10 +275,10 @@ void displayInvPerType(Type type, inventory* inv){
     while(inv!=NULL){
         if(inv->inv->item->itemType == type){
             if(inv->inv->stock == 1){
-                printf("You have %d %s \n", inv->inv->stock, inv->inv->item->name);
+                printf( "%d. %s : %d piece \n", inv->inv->item->id, inv->inv->item->name, inv->inv->stock);
             }
             else{
-                printf("You have %d %s \ns", inv->inv->stock, inv->inv->item->name); 
+                printf( "%d. %s : %d pieces \n", inv->inv->item->id, inv->inv->item->name, inv->inv->stock);
             }
         }
         inv = inv->next;
@@ -308,9 +308,9 @@ int checkResources (int itemId, inventory* invPlayer, inventory* invPNJ){
 }
 
 void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAdd){
-    Item* item;
     // check if the required resources are present in the player's or the PNJ's inventory 
-    if(checkResources(itemID, invPlayer, invPNJ) == 1 ){ 
+    if(checkResources(itemID, invPlayer, invPNJ) == 1 ){
+        Item* item; 
         item = initItem(itemID);
         int idCraftRes1 = item->craftResources[0][0];
         Item* itemCraft1 = initItem(idCraftRes1);
@@ -325,7 +325,6 @@ void craftItem(int itemID, inventory* invPlayer, inventory* invPNJ, int choiseAd
        switch(choiseAdd){
         case 1://player chooses to add the item to his own inventory
             if(addItemInvPlayer(item, invPlayer, 1) == 1){
-                addItemInvPlayer(item, invPlayer, 1);
                 if (stockInvPlayerRes1 >= stockCraftRes1){//player's inventory has the necessary amount of stock for Craft resource 1
                     deleteItemFromInv(itemCraft1, invPlayer,stockCraftRes1);
                 }

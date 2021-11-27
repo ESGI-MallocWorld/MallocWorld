@@ -81,7 +81,7 @@ void deleteElFromLinkedList(inventory*, Item*);
 
 void craftItem(int, inventory*, inventory*, int);
 
-int checkResources (int, inventory*, inventory*);
+int checkResources(int, inventory*, inventory*);
 
 /**
  * function that adds the given resource to the given inventory if the player's inventory contains the required resource with the required durability
@@ -96,7 +96,7 @@ void addResourcetoInv(Item*, inventory*);
  * @param val
  * @param inv
  */
-void harvestResource (int, inventory*);
+void harvestResource(int, inventory*);
 
 /**
  * function that returns the asked for tool, if the player has it in its inventory
