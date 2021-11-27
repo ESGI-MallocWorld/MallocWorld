@@ -14,7 +14,7 @@ void printInventory(inventory* inv){ // print each item in the inventory
     }
 }
 
-Item browseItem(inventory* inv1,int number){ // browse an item with an index in the inventory
+Item* browseItem(inventory* inv1,int number){ // browse an item with an index in the inventory
     for (int i = 0; i < number-1; i++)
     {
         inv1 = inv1->next;
@@ -22,7 +22,7 @@ Item browseItem(inventory* inv1,int number){ // browse an item with an index in 
     return inv1->inv->item;
 }
 
-void addItem(Item item, inventory* inv1){ // add an item in the inventory
+void addItem(Item* item, inventory* inv1){ // add an item in the inventory
     while (inv1 != 0){
         inv1 = inv1->next;
     }
@@ -40,10 +40,10 @@ void deleteItem(inventory* inv1, int number){ //delete an item with an index in 
 
         for (int i = 0; i < number-2; i++)
         {
-            inv1=inv1->next
+            inv1=inv1->next;
         }
 
-        tmpInv=inv1->next;
+       inventory* tmpInv=inv1->next;
 
         if(tmpInv->next==NULL){
             inv1->next=NULL;
@@ -63,7 +63,7 @@ void depositItems(inventory* inv1, inventory* inv2){ //deposit items from the pl
     printf("Choose the item you want to deposit:");
     scanf("%d",&itemChoice);
 
-    Item choosedItem = browseItem(inv1,itemChoice);
+    Item* choosedItem = browseItem(inv1,itemChoice);
 
     addItem(choosedItem,inv2);
 
@@ -79,7 +79,7 @@ void takeItems(inventory* inv2, inventory* inv1){ //take items from the NPC's in
     printf("Choose the item you want to deposit:");
     scanf("%d",&itemChoice);
 
-    Item choosedItem = browseItem(inv2,itemChoice);
+    Item* choosedItem = browseItem(inv2,itemChoice);
 
     int size=getSizeInv(inv1); // get size from the player inventory
 
