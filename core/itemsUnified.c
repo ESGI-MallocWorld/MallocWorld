@@ -5,15 +5,22 @@
 #include<string.h>
 #include<time.h>
 
+
 Item* initAttributes(Type type, int id, char* name,int zone,int durability, int craftResource1, int amount1, int craftResource2, int amount2, int toolUsuryByResource,Item* harvestTool, int damage, int resistance, int restoredHP){
-    Item *item;
-    item = malloc(sizeof(Item));
+    Item *item = malloc(sizeof(Item));
 
     item->itemType = type;
     item->id = id;
     item->name = name;
     item->zone = zone;
     item->durability = durability;
+
+    item->craftResources = malloc (sizeof(int*)*2);
+    for (int i = 0; i < 2; i++)
+    {
+        item->craftResources[i]=malloc (sizeof(int)*2);
+    }
+
     item->craftResources[0][0] = craftResource1;
     item->craftResources[0][1] = amount1;
     item->craftResources[1][0] = craftResource2;
@@ -27,10 +34,9 @@ Item* initAttributes(Type type, int id, char* name,int zone,int durability, int 
     return item;
 }
 
-
 //Function that creates a item when item ID is given as a parameter
 Item* initItem(int val){
-    Item* item;
+    Item *item = malloc(sizeof(Item));
     switch (val) {
         /*Tools*/
         case 2: // wooden pickaxe
@@ -147,6 +153,7 @@ Item* initItem(int val){
     }
     return item;
 }
+
 
 //function that checks if the inventory of the player contains the required resources for the item he wants to create
 int checkResources (int itemId, inventory* invPlayer, inventory* invPNJ){

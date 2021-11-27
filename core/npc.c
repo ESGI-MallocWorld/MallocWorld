@@ -1,25 +1,23 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include"inventory.h"
-#include<inventory.c>
-#include"npc.h"
 
-
-int getSize(inventory* inv){//get the size of an inventory
+int getSize(inventory* inv1){//get the size of an inventory
     int size=1;
-    while (inv->next != NULL){
+    while (inv1->next != NULL){
         size=size+1;
-        inv = inv->next;
+        inv1 = inv1->next;
     }
     return size;
 }
 
-void printInventory(inventory* inv){ // print each item in the inventory 
+void printInventory(inventory* inv1){ // print each item in the inventory 
     int size=0;
-    while (inv != 0){
+    while (inv1 != 0){
         size=size+1;
-        char* itemName=inv->inv->item->name;
+        char* itemName=inv1->inv->item->name;
         printf("%d-%s \n",size,itemName);
-        inv = inv->next;
+        inv1 = inv1->next;
     }
 }
 
@@ -31,10 +29,12 @@ inventory* browseItem(inventory* inv1,int number){ // browse an item with an ind
     return inv1;
 }
 
-inventory* newItem(inventory* inv1){
+inventory* newItem(inventory* inv1){ // create a new inventory entry
     inventory* newItem=malloc(sizeof(inventory));
-    newItem->inv->item=inv1->inv->item;
-    newItem->inv->stock=inv1->inv->stock;
+    invInfo* invInfo=malloc(sizeof(invInfo));
+    invInfo->item=inv1->inv->item;
+    invInfo->stock=inv1->inv->stock;
+    newItem->inv=invInfo;
     newItem->next=NULL;
 
     return newItem;
@@ -55,7 +55,6 @@ void deleteItem(inventory* inv1, int number){ //delete an item with an index in 
     if (number==1)
     {
        *inv1=*tempInv->next;  
-       free(tempInv);
        return;
     }
     
@@ -113,10 +112,14 @@ void takeItems(inventory* inv2, inventory* inv1){ //take items from the NPC's in
 
     inventory* choosedItem = browseItem(inv2,itemChoice);
 
-    int size=getSizeInv(inv1); // get size from the player inventory
+    int size=getSize(inv1); // get size from the player inventory
 
     if (size<10) //if size < 10 then we add the choosedItem to the inventory
     {
+       /* Item* newItem=malloc(sizeof(Item));
+        newItem=initItem(choosedItem->inv->item->id);
+        choosedItem->inv->item=newItem;*/
+        
         addItem(choosedItem,inv1);
 
         deleteItem(inv2,itemChoice);
@@ -124,108 +127,206 @@ void takeItems(inventory* inv2, inventory* inv1){ //take items from the NPC's in
 
 }
 
-void craftItems(){
+void verifyNotTypeResource(int val){ //verify if item are ressources and print if not to choose the one to craft
+
+Item* newItem=malloc(sizeof(Item));
+newItem=initItem(val);
+
+    if (newItem->itemType!=1 && val!=34)
+    {
+        printf("%d-%s, ",newItem->id,newItem->name);
+    }
+    if (newItem->itemType!=1 && val==34)
+    {
+        printf("%d-%s \n",newItem->id,newItem->name);
+    }
+    
+}
+
+int verifyInInventory(inventory* inv1, int id, int amount){ //verify if the resources are in the inventory
+
+    while (inv1->next != NULL){
+        if (inv1->inv->item->id==id)
+        {
+            if (inv1->inv->stock>=amount)
+            {
+                return 1;
+            } 
+        }
+        inv1 = inv1->next;
+    }
+
+return 0;
+}
+
+int verifyResources(inventory* inv1, int val,int ressourceNumber){ //get ressources id and amount then verify through verifyInInventory
+
+Item* newItem=malloc(sizeof(Item));
+newItem=initItem(val);
+
+
+int id=newItem->craftResources[ressourceNumber-1][0];
+int amount=newItem->craftResources[ressourceNumber-1][1];
+
+if (id==0 && amount==0)
+{
+    return 1;
+}
+
+return verifyInInventory(inv1,id,amount);;
+}
+
+inventory* deleteNode(inventory* inv1){ //move from one node to the next one if not null
+    inv1=inv1->next;
+    return inv1;
+}
+
+int deleteItemFromCraft(inventory* inv1, int id, int amount){ //delete resources used
+inventory * tempInv= malloc(sizeof(inventory));
+tempInv=inv1;
+    while (tempInv->next != NULL){
+        if (tempInv->inv->item->id==id)
+        {
+            if (tempInv->inv->stock>=amount)
+            {
+                tempInv->inv->stock=tempInv->inv->stock-amount;
+                if (tempInv->inv->stock==0)
+                {
+                    if (tempInv->next!=NULL)
+                    {   
+                        while (inv1->next!=tempInv)
+                        {
+                            inv1=inv1->next;
+                        }
+                        inv1->next=deleteNode(tempInv);
+                    } else {
+                        inv1->next=NULL;
+                    }
+                }
+                free(tempInv);
+                return 1;
+            } 
+        }
+        tempInv = tempInv->next;
+    }
+
+return 0;
+}
+
+inventory* newItemFromCraft(int val){ //create a new crafted item
+    inventory* newItem=malloc(sizeof(inventory));
+    invInfo* invInfo=malloc(sizeof(invInfo));
+    invInfo->item=initItem(val);
+    invInfo->stock=1;
+    newItem->inv=invInfo;
+    newItem->next=NULL;
+
+    return newItem;
+}
+
+void addItemFromCraft(inventory* newItem, inventory* inv1){ // add an item in the inventory from the craft
+    while (inv1->next != NULL){
+        inv1 = inv1->next;
+    }
+    inv1->next=newItem;
+}
+
+void craft(inventory* inv1,int val){ //craft an item with it's id
+
+for (int i = 0; i < 2; i++)
+{
+    int result=verifyResources(inv1,val,i);
+    if (result==0)
+    {
+        return;
+    }
+}
+
+inventory* newItem = newItemFromCraft(val);
+
+addItemFromCraft(newItem,inv1);
+
+for (int i = 0; i < 2; i++)
+{
+    int result=deleteItemFromCraft(inv1,val,i);
+    if (result==0)
+    {
+        return;
+    }
+}
 
 }
 
-int main(int argc, char *argv[]){
+void craftItem(inventory* invPlayer){ //print and choose the item to craft
+
+    int size=getSize(invPlayer); 
+    if (size<10) 
+    {
+       
+    for (int i = 1; i < 35; i++)
+    {
+        verifyNotTypeResource(i);
+    }
+
+    int itemChoice;
+    printf("Choose the item you want to craft:");
+    scanf("%d",&itemChoice);
+
+    craft(invPlayer,itemChoice);
+    }
+
+}
+
+void startNPC(inventory* invPlayer, inventory* invNPC){
 
     int choice;
     printf("Hello, what do you want to do? \n 1->Deposit Items, 2->Take Items, 3->Craft Items, 4->Nothing : ");
     scanf("%d", &choice);
-
-    Item* item1= malloc(sizeof(Item));
-    item1->itemType=3;
-    item1->id=1;
-    item1->name="Test1";
-    item1->zone=1;
-    item1->durability=1; 
-    item1->craftResources=0;
-    item1->toolUsuryByResource=1; 
-   
-    item1->damage=1; 
-    item1->resistance=1; 
-    item1->restoredHP=1;
-
-    Item* item2= malloc(sizeof(Item));
-    item2->itemType=3;
-    item2->id=2;
-    item2->name="Test2";
-    item2->zone=1;
-    item2->durability=1; 
-    item2->craftResources=0;
-    item2->toolUsuryByResource=1; 
-
-    item2->damage=1; 
-    item2->resistance=1; 
-    item2->restoredHP=1;
-
-    Item* item3= malloc(sizeof(Item));
-    item3->itemType=3;
-    item3->id=2;
-    item3->name="Test3";
-    item3->zone=1;
-    item3->durability=1; 
-    item3->craftResources=0;
-    item3->toolUsuryByResource=1; 
-
-    item3->damage=1; 
-    item3->resistance=1; 
-    item3->restoredHP=1;
-
-    inventory* invPlayer = malloc(sizeof(inventory));
-    inventory* invPlayer2 = malloc(sizeof(inventory));
-    inventory* invPlayer3 = malloc(sizeof(inventory));
-    invPlayer->inv->item=item1;
-    invPlayer->inv->stock=2;
-    invPlayer->next=invPlayer2;
-    invPlayer2->inv->item=item2;
-    invPlayer2->inv->stock=2;
-    invPlayer2->next=invPlayer3;
-    invPlayer3->inv->item=item3;
-    invPlayer3->inv->stock=2;
-    invPlayer3->next=NULL;
     
-    inventory* invNPC = malloc(sizeof(inventory));
-    inventory* invNPC2 = malloc(sizeof(inventory));
-    invNPC->inv->item=item2;
-    invNPC->inv->stock=3;
-    invNPC->next=invNPC2;
-    invNPC2->inv->item=item2;
-    invNPC2->inv->stock=3;
-    invNPC2->next=NULL;
-
-    switch (choice) {
-    case 1:
-        while (choice==1)
-        {
-            depositItems(invPlayer,invNPC);
-            printf("1:\n");
-            printInventory(invPlayer);
-            printf("2:\n");
-            printInventory(invNPC);
-            printf("Hello, what do you want to do? \n 1->Deposit Items, 2->Take Items, 3->Craft Items, 4->Nothing : ");
-            scanf("%d", &choice);
-        }
-    case 2:
-        while (choice==2)
-        {
-            takeItems(invNPC,invPlayer);  
-            printf("1:\n");
-            printInventory(invPlayer);
-            printf("2:\n");
-            printInventory(invNPC);
-            printf("Hello, what do you want to do? \n 1->Deposit Items, 2->Take Items, 3->Craft Items, 4->Nothing : ");
-            scanf("%d", &choice); 
-        }
+    while (choice!=4)
+    {
+        switch (choice) {
+        case 1:
+            while (choice==1)
+            {
+                depositItems(invPlayer,invNPC);
+                printf("1:\n");
+                printInventory(invPlayer);
+                printf("2:\n");
+                printInventory(invNPC);
+                printf("Hello, what do you want to do? \n 1->Deposit Items, 2->Take Items, 3->Craft Items, 4->Nothing : ");
+                scanf("%d", &choice);
+            }
+            
+        case 2:
+            while (choice==2)
+            {
+                takeItems(invNPC,invPlayer);
+                printf("1:\n");
+                printInventory(invPlayer);
+                printf("2:\n");
+                printInventory(invNPC);
+                printf("Hello, what do you want to do? \n 1->Deposit Items, 2->Take Items, 3->Craft Items, 4->Nothing : ");
+                scanf("%d", &choice);
+            }
         
-        
-    case 3:
-        craftItems();
-    case 4:
-        break;
-    default:
-        break;
+        case 3:
+            while (choice==3)
+            {
+                craftItems(invPlayer);
+                printf("1:\n");
+                printInventory(invPlayer);
+                printf("2:\n");
+                printInventory(invNPC);
+                printf("Hello, what do you want to do? \n 1->Deposit Items, 2->Take Items, 3->Craft Items, 4->Nothing : ");
+                scanf("%d", &choice);
+            }
+            
+        case 4:
+            break;
+        default:
+            break;
+        }
     }
 
 
