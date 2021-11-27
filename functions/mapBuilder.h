@@ -286,8 +286,33 @@ void addNPC(map* map) {
 
 }
 
+/**
+ * add border on map
+ * @param map
+ */
+void addBorder(map* map) {
+    printf("Progress : add border  ... \n");
+    int **zone1 ;
+    int max_X = getMapRowSize(map);
+    int max_Y = getMapColSize(map);
+    int min_y = 0;
+    int min_x = 0;
 
+    zone1 = map->mapData;
 
+    for (int i = 0; i < max_Y; ++i) {
+        zone1[min_x][i] = -1 ;
+        zone1[max_X-1][i] = -1 ;
+    }
+
+    for (int i = 0; i < max_X; ++i) {
+        zone1[i][min_y] = -1 ;
+        zone1[i][max_Y-1] = -1 ;
+    }
+
+    printf("Progress : border have been add ... \n");
+
+}
 /**
  * insert Elements on map
  * @param map
@@ -295,6 +320,7 @@ void addNPC(map* map) {
 void insertElements(map* map){
     printf("Progress : Insert element ... \n");
 
+    addBorder(map);
     addPlayer(map);
     addNPC(map);
     addPortal(map);
@@ -337,6 +363,9 @@ int** init_empty_map(int row , int col){
 
 }
 
+
+
+
 /**
  * random max recourse val
  * @return [ Max_enemies,Max_rocks ,Max_plants , Max_trees]
@@ -355,13 +384,50 @@ int* randResources(){
 
 }
 
+
+void printColorCode(int locationCode){
+
+    switch (locationCode) {
+        case -3:// portal
+        case -2:
+            printf("\033[1;37m");break;
+        case -1: // wall
+            printf("\033[1;30m");break;
+        case 1: // player
+        case 2: // NPC
+            printf("\033[0;36m"); break;
+        case 3: // plant
+        case 6:
+        case 9:
+            printf("\033[0;33m"); break;
+        case 4: // Rock
+        case 7: // Rock
+        case 10: // Rock
+            printf("\033[0;38m"); break;
+        case 5: // tree
+        case 8: // tree
+        case 11: // tree
+            printf("\033[0;32m"); break;
+        case 0: // road
+            printf("\033[0;30m"); break;
+        default:
+            if(locationCode >=12 && locationCode <= 98){
+                printf("\033[0;31m");
+            }else if(locationCode == 99){
+                printf("\033[0;35m");
+                break;
+            }
+    }
+}
+
 void printMap(map *map){
     int row , col;
     row = getMapRowSize(map);
     col = getMapColSize(map);
     for (int x = 0; x < row; ++x) {
         for (int y = 0; y < col; ++y) {
-            printf("%d ",map->mapData[x][y]);
+            printColorCode(map->mapData[x][y]);
+            printf("%3d ",map->mapData[x][y]);
         }
         printf("\n");
     }
@@ -382,8 +448,8 @@ map* initMapConfiguration(int zone_level){
 
     map->level = zone_level;
 
-    map->mapInformation->row_size    = 10;
-    map->mapInformation->col_size    = 10;
+    map->mapInformation->row_size    = 20;
+    map->mapInformation->col_size    = 20;
     map->mapInformation->max_enemies = randResourcesVal[0]+10;
     map->mapInformation->max_rocks   = randResourcesVal[1]+3;
     map->mapInformation->max_plants  = randResourcesVal[2]+3;
