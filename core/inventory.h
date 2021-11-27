@@ -47,6 +47,8 @@ int getSizeInv(inventory*);
 
 inventory* newElement(Item*, int);
 
+int checkifTypePresent(Type, inventory*);
+
 
 /**
  * add tool in inventory
