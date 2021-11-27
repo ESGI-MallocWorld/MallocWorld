@@ -153,16 +153,22 @@ void deleteElFromLinkedList(inventory* inv, Item* item){
 
 int deleteItemFromInv(Item* item, inventory* inv, int quantity){
     int stockInInv = getStockItem(item->id, inv);
-    int newAmount = stockInInv - quantity;
+    if(stockInInv > 0 && stockInInv < quantity){ //if the inventory hasn't enough pieces of the looked for item
+        printf("You only have %d pieces of %s in the inventory \n", stockInInv, item->name);
+        return 0;
+    } 
+    else if(stockInInv == 0){ //if the item is not present in the inventory
+        printf("There is no %s present in the inventory\n", item->name);
+        return 0;
+    }
+    //int newAmount = stockInInv - quantity;
+    //inventory *inventoryData = getInventoryByItem(item , inv);
+    //inventoryData->inv->stock = newAmount;
 
-    inventory *inventoryData = getInventoryByItem(item , inv);
-
-    inventoryData->inv->stock = newAmount;
-
-    if(newAmount == 0 ){
+    /*if(newAmount == 0 ){
             temp = inv;
             inv = inv->next;
-            free(temp);
+            free(temp); */
     }
     else{
         inventory* temp;
