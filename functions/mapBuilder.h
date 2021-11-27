@@ -320,7 +320,7 @@ void addBorder(map* map) {
 void insertElements(map* map){
     printf("Progress : Insert element ... \n");
 
-    addBorder(map);
+//    addBorder(map);
     addPlayer(map);
     addNPC(map);
     addPortal(map);
