@@ -4,6 +4,16 @@
 #include<time.h>
 #include "inventory.h"
 
+int checkifTypePresent(Type type, inventory* inv ){
+    while(inv != NULL){
+        if(inv->inv->item->itemType == type){
+            return 1;
+        }
+        inv= inv->next;
+    }
+    return 0;
+}
+
 inventory* checkIfItemPresent(Item* item,inventory* inv){
     inventory* newInv = malloc(sizeof(inventory));
     while(inv != NULL){
@@ -346,6 +356,7 @@ Item* isToolInInv(Item* resource,inventory* inv){
 }
 
 void addResourcetoInv(Item* resource, inventory* inv){
+    srand ( time(NULL) ); 
     Item *toolinInv = isToolInInv(resource, inv);
     if (toolinInv != NULL && toolinInv->durability > 0){
         toolinInv->durability = toolinInv->durability - (resource->harvestTool->durability * ((double)resource->toolUsuryByResource / 100));
@@ -362,7 +373,6 @@ void addResourcetoInv(Item* resource, inventory* inv){
 
 void harvestResource (int val, inventory* inv){
     Item* resource;
-    srand ( time(NULL) ); 
     switch(val){
         case 3:
             resource = initItem(7);

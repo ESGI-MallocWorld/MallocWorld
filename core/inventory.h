@@ -38,6 +38,8 @@ typedef struct inventory{
 
 inventory* checkIfItemPresent(Item*,inventory*);
 
+int checkifTypePresent(Type, inventory*);
+
 inventory* newElement(Item*, int);
 
 int getSizeInv(inventory*);
