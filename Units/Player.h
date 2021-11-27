@@ -5,6 +5,9 @@
 #ifndef MALLOCWORLD_PLAYMENU_H
 #define MALLOCWORLD_PLAYMENU_H
 
+#include "../core/inventory.h"
+#include "../core/level.h"
+
 typedef struct Player Player;
 
 typedef struct Player{
@@ -13,7 +16,7 @@ typedef struct Player{
      int maxHp;
      int exp;
      level* level;
-//     inventory* inventory;
+     inventory* inventory;
      int* location;
 
      // getter

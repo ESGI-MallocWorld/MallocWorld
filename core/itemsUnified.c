@@ -154,7 +154,14 @@ char* getItemName(int val){
     int size = strlen(item->name);  
     char* name = malloc(sizeof(char)*size);
     name = item->name;
+    free(item);
     return name;
+}
+
+Item* getItemfromID (int itemID){
+    Item* item;
+    item = initItem(itemID);
+    return item;
 }
 
 

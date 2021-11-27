@@ -88,4 +88,6 @@ Item* initItem(int val);
 
 void toString();
 
+Item* getItemfromID (int);
+
 #endif
