@@ -1,61 +1,50 @@
 //
 // Created by wuchi on 2021/10/13.
 //
-
 #ifndef MALLOCWORLD_PLAYERMOUVEMENT_H
 #define MALLOCWORLD_PLAYERMOUVEMENT_H
 
 #include "./mapInterReaction.h"
 
-//import player data etc ....
-
+#include "playerMouvement.h"
+#include "mapAction.h" // have been included in Action
 
 void addResource();
 
-
-/**
- * Called when mean a enemies or resource
- *
- */
 void mapInterReaction();
 
-/**
- * called by goUp , goRight , goDown, goLeft
- * @return PlayerLocation
- */
-int* getPlayerLocation(){
+
+
+int* getPlayerLocation(Player *this){
     return player->location;
 }
 
-/**
- * Check target location if not null call function mapInterReaction
- */
-void goUp();
+void goUp(playerData){
+    if(isRoad())
+}
+
 void goRight();
 void goDown();
 void goLeft();
 
-/**
- * function called when user chose to move
- */
-void move(){
 
+void move(Player playerData){
     int direction ;
 
-    //ask to go
+    scanf("%d" ,&direction)
 
     switch (direction) {
         case 1: // go up        ↑
-            goUp();
+            goUp(playerData);
             break;
         case 2: // go right     →
-            goRight();
+            goRight(playerData);
             break;
         case 3: // go down      ↓
-            goDown();
+            goDown(playerData);
             break;
         case 4: // go left      ←
-            goLeft();
+            goLeft(playerData);
             break;
     }
 }
