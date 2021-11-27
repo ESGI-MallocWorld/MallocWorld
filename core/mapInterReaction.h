@@ -4,7 +4,7 @@
 
 #ifndef MALLOCWORLD_MAPINTERREACTION_H
 #define MALLOCWORLD_MAPINTERREACTION_H
-#include "./combat.h"
+#include "../functions/combat.h"
 
 /**
  *  loot and Resource claim be add with this function

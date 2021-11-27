@@ -1,5 +1,5 @@
 //
-// Created by wuchi on 2021/10/13.
+// Created by wuchi on 2021/11/13.
 //
 #ifndef MALLOCWORLD_PLAYERMOUVEMENT_H
 #define MALLOCWORLD_PLAYERMOUVEMENT_H
@@ -24,7 +24,11 @@ void goUp(playerData){
 }
 
 void goRight();
+
+
 void goDown();
+
+
 void goLeft();
 
 
@@ -33,6 +37,7 @@ void move(Player playerData){
 
     scanf("%d" ,&direction)
 
+    printf(" /n");
     switch (direction) {
         case 1: // go up        ↑
             goUp(playerData);
@@ -49,6 +54,3 @@ void move(Player playerData){
     }
 }
 
-
-
-#endif //MALLOCWORLD_PLAYERMOUVEMENT_H

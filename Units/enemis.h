@@ -10,33 +10,20 @@
 typedef struct Enemy{
     int id;
     char* name;
+    int zone;
     int life;
+    int damage;
     int expGained; 
 } Enemy;
 
-struct Enemy * Goblins;
-Goblins->id=15;
-Goblins->name = "Goblin";
-Goblins->life=50;
-Goblins->expGained=25;
+Enemy** createMonsters();
 
-struct Enemy * Trolls;
-Trolls->id=25;
-Trolls->name = "Troll";
-Trolls->life=110;
-Trolls->expGained=60;
+Enemy* initializeMonster(int, char*, int, int, int, int);
 
-struct Enemy * Undead;
-Undead->id=35;
-Undead->name = "Undead";
-Undead->life=200;
-Undead->expGained=200;
+int* getListofMonsterID(Enemy**, int);
 
-struct Enemy * FinalBoss;
-FinalBoss->id=99;
-FinalBoss->name = "FinalBoss";
-FinalBoss->life=800;
-FinalBoss->expGained=500;
+Enemy* createMonsterfromID(int);
 
+void displayCharacteristicsMonster(int);
 
 #endif //MALLOCWORLD_ENEMIS_H

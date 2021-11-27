@@ -1,9 +1,12 @@
 #ifndef MALLOCWORLD_LEVEL_H
 #define MALLOCWORLD_LEVEL_H
 
+#include<stdlib.h>
+#include<stdio.h>
+
 typedef struct level {
     int levelID;
-    int maxHP;
+    int maxHp;
     int minExp;
     int maxExp; //if exp of player > maxEsp then the player's level will be upgraded
 
@@ -11,7 +14,7 @@ typedef struct level {
 
 level* createLevel(int);
 
-void addAllLevels();
+void setLevel(int);
 
 
 #endif
