@@ -5,8 +5,9 @@
 #ifndef MALLOCWORLD_MAP_H
 #define MALLOCWORLD_MAP_H
 
-typedef struct map map ;
-
+/**
+ * MAP setting
+ */
 typedef struct mapParam mapParam ;
 
 typedef struct mapParam {
@@ -17,12 +18,6 @@ typedef struct mapParam {
     int max_plants;
     int max_trees;
 }mapParam;
-
-typedef struct map {
-    int ** mapData;
-    int level;
-    mapParam* mapInformation;
-}map;
 
 int getRowSize(mapParam* mapInformation);
 
@@ -35,6 +30,18 @@ int getMaxRocks(mapParam* mapInformation);
 int getMaxPlants(mapParam* mapInformation);
 
 int getMaxTrees(mapParam* mapInformation);
+
+/**
+ * MAP
+ */
+typedef struct map map ;
+
+typedef struct map {
+    int ** mapData;
+    int level;
+    mapParam* mapInformation;
+}map;
+
 
 int getMapRowSize(map* map);
 

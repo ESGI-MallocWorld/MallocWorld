@@ -4,26 +4,37 @@
 #include<time.h>
 #include "inventory.h"
 
-int checkifTypePresent(Type type, inventory* inv ){
-    while(inv != NULL){
-        if(inv->inv->item->itemType == type){
-            return 1;
-        }
-        inv= inv->next;
-    }
-    return 0;
-}
-
 inventory* checkIfItemPresent(Item* item,inventory* inv){
     inventory* newInv = malloc(sizeof(inventory));
+
+inventory* newInventory(){
+    inventory* invData = malloc(sizeof(inventory));
+    return invData;
+}
+
+int getStockAmount(inventory *inventoryData){
+    return inventoryData->inv->stock ;
+}
+
+
+inventory* getInventoryByItem(Item* item,inventory* inv){
+    inventory* newInv = newInventory();
+
     while(inv != NULL){
         if(inv->inv->item->id == item->id){
-            newInv = inv;
-            return newInv;
+            invData = inv;
+            return invData;
         }
         inv = inv->next;
     }
     return NULL;
+}
+
+int checkIfItemPresent(Item* item,inventory* inv){
+    if(getInventoryByItem(item,inv) != NULL){
+        return 1;
+    }
+    return 0;
 }
 
 int getSizeInv(inventory* inv){
@@ -34,8 +45,14 @@ int getSizeInv(inventory* inv){
     }
 }
 
+int getStockItem(int itemID, inventory* inv){
+    inventoryData = getInventoryByItem(itemID,inv);
+    return getStockAmount(inventoryData);
+}
+
+
 inventory* newElement(Item* item, int newStock){ //function that creates a new element in a linked list
-    inventory* inv = malloc(sizeof(inventory));
+    inventory* inv = newInventory();
     inv->inv->item = item;
     inv->inv->stock = newStock; //initialises the stock to the number given as parameter;
     inv->next = NULL;
@@ -43,16 +60,12 @@ inventory* newElement(Item* item, int newStock){ //function that creates a new e
 }
 
 int addItemInvPlayer(Item* item, inventory* inv, int newStock){
-    if(item == NULL){
-      return 0;  
-    }
     int size = getSizeInv(inv);
     inventory* invExistingResource = checkIfItemPresent(item, inv);
     if((item->itemType == Resource || item->itemType == Potion) && invExistingResource != NULL){ //checks if item is a resource && checks if the resource is already present in the inventory
         if(invExistingResource->inv->stock < 20){ //checks if the player's resource inventory isn't full
             invExistingResource->inv->stock += newStock; 
-        }
-        else if(size<10){ //if the inventory is not full yet, the resource can be added ad the end of the linked list
+        }else if(size<10){ //if the inventory is not full yet, the resource can be added ad the end of the linked list
             while(inv->next!=NULL){
                 inv = inv->next;
             }
@@ -96,12 +109,10 @@ void addItemInvPNJ(Item* item, inventory* inv,int newStock){
         invExistingItem->inv->stock += newStock;
         if (newStock == 1){
             printf("%d %s has been added to the PNJ's inventory \n", newStock, item->name);
-        }
-        else{
+        }else{
             printf("%d pieces of %s have been added to the PNJ's inventory \n", newStock, item->name);
         }
-    }
-    else{//if the item isn't present in the inventory
+    }else{//if the item isn't present in the inventory
         while(inv->next!=NULL){
             inv = inv->next;
         }
@@ -113,25 +124,13 @@ void addItemInvPNJ(Item* item, inventory* inv,int newStock){
     } 
 }
 
-int getStockItem(int itemID, inventory* inv){
-    int stock = 0;
-    while(inv != NULL){
-        if(inv->inv->item->id == itemID){
-            stock += inv->inv->stock;
-        }
-        inv = inv->next;
-    }
-    return stock;
-}
-
 void deleteElFromLinkedList(inventory* inv, Item* item){
     inventory* temp;
     if(inv->inv->item->id == item->id){ // if item is stocked in the first case of the inventory 
         temp = inv; 
         inv = inv->next;
         free(temp);
-    }
-    else{
+    }else{
         while(inv->next != NULL){
             if(inv->next->inv->item->id == item->id){
                 temp = inv->next;
@@ -143,16 +142,19 @@ void deleteElFromLinkedList(inventory* inv, Item* item){
     }              
 }
 
-int deleteItemFromInv(Item* item, inventory* inv, int quantity){
+
+void deleteItemFromInv(Item* item, inventory* inv, int quantity){
     int stockInInv = getStockItem(item->id, inv);
-    int amount = quantity;
-    if(stockInInv > 0 && stockInInv < amount){ //if the inventory hasn't enough pieces of the looked for item
-        printf("You only have %d pieces of %s in the inventory \n", stockInInv, item->name);
-        return 0;
-    } 
-    else if(stockInInv == 0){ //if the item is not present in the inventory
-        printf("There is no %s present in the inventory\n", item->name);
-        return 0;
+    int newAmount = stockInInv - quantity;
+
+    inventory *inventoryData = getInventoryByItem(item , inv);
+
+    inventoryData->inv->stock = newAmount;
+
+    if(newAmount == 0 ){
+            temp = inv;
+            inv = inv->next;
+            free(temp);
     }
     else{
         inventory* temp;
@@ -200,26 +202,63 @@ int deleteItemFromInv(Item* item, inventory* inv, int quantity){
                     return 1;
                     printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name);
                 }
+            } while (inv->next != NULL);
 
-                
+            //if item is not stocked in the first case or if the demanded amount is higher than what has already been withdrawn and the item is stocked in multiple cases
+            while(inv->next != NULL){
+                difference = amount - inv->next->inv->stock;
+                if(inv->next->inv->item->id == item->id){//checks if the item can be found in the next case
+                    if(difference==0){//if the demanded quantity is equal to the stock present in the next item's case
+                        temp = inv->next;
+                        inv->next = inv->next->next;
+                        free(temp);
+                        printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name )
+                        return 1;
+                    }
+                    if else (difference>0){//if the demanded amount is higher than the stock present in the next item's case
+                        amount -= inv->next->inv->stock;
+                        temp = inv->next;
+                        inv->next = inv->next->next;
+                        free(temp);
+                    }
+                    else{//if the stock in the inventory of the next item's case is higher than the demanded amount
+                        inv->next->inv->stock -= amount;
+                        return 1;
+                        printf("%d piece(s) of %s were withdrawn from the inventory.\n", amount, item->name )
+                    }
+                }
+                inv = inv->next;
             }
-        inv = inv->next;
-        }  
-        
+
+        }
+
     }
 
+void deleteItemFromInv2(Item* item, inventory* inv, int quantity) {
+    int stockInInv = getStockItem(item->id, inv);
+    int newAmount = stockInInv - quantity;
+
+    inventory *inventoryData = getInventoryByItem(item, inv);
+
+    inventoryData->inv->stock = newAmount;
+
+    if (newAmount == 0) {
+        temp = inv;
+        inv = inv->next;
+        free(temp);
+    }
 }
 
 void moveItemFromInvPNJToInvPlayer(Item* item, int quantity, inventory* invPNJ, inventory* invPlayer){
-    deleteItemFromInv(item, invPNJ, quantity);
-    if (deleteItemFromInv == 1){
+    int res = deleteItemFromInv(item, invPNJ, quantity);
+    if (res == 1){ // créer une function qui controle les donner et puis appelle cette function
         addItemInvPlayer(item,invPlayer,quantity);
     }
 }
 
 void moveItemFromInvPlayerToInvPNJ(Item* item, int quantity, inventory* invPlayer, inventory* invPNJ){
-    deleteItemFromInv(item, invPlayer, quantity);
-    if (deleteItemFromInv == 1){
+    int res = deleteItemFromInv(item, invPlayer, quantity);
+    if (res == 1){
         addItemInvPNJ(item,invPNJ,quantity);
     }
 }
