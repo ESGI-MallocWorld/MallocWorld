@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
+#include "./core/importExport.c"
 #include "./core/inventory.h"
 #include "./Units/Player.c"
 #include "./functions/Action.c"
@@ -32,11 +32,8 @@ int main(int argc, char *argv[]){
 
     switch (action) {
         case 1:
-            if(false){     //check if user have save file
-                if(false){ // chose = 0 , overrider save
-                }else{ // chose = 1 , load current profile
-                }
-            }
+            
+            break;
         case 2:
 
             runGame(player,map,NPC_inventory);
