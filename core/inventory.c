@@ -20,8 +20,8 @@ inventory* getInventoryByItem(Item* item,inventory* inv){
 
     while(inv != NULL){
         if(inv->inv->item->id == item->id){
-            invData = inv;
-            return invData;
+            newInv = inv;
+            return newInv;
         }
         inv = inv->next;
     }
@@ -51,6 +51,7 @@ int getSizeInv(inventory* inv){
         size+=1;
         inv = inv->next;
     }
+    return size;
 }
 
 int getStockItem(int itemID, inventory* inv){
@@ -67,8 +68,9 @@ int getStockItem(int itemID, inventory* inv){
 
 inventory* newElement(Item* item, int newStock){ //function that creates a new element in a linked list
     inventory* inv = newInventory();
-    inv->inv->item = item;
-    inv->inv->stock = newStock; //initialises the stock to the number given as parameter;
+    invInfo* invInfo = inv->inv = malloc (sizeof(invInfo));
+    invInfo->item = item;
+    invInfo->stock = newStock; //initialises the stock to the number given as parameter;
     inv->next = NULL;
     return inv;
 }
@@ -79,6 +81,7 @@ int addItemInvPlayer(Item* item, inventory* inv, int newStock){
     if((item->itemType == Resource || item->itemType == Potion) && invExistingResource != NULL){ //checks if item is a resource && checks if the resource is already present in the inventory
         if(invExistingResource->inv->stock < 20){ //checks if the player's resource inventory isn't full
             invExistingResource->inv->stock += newStock; 
+            return 1;
         }else if(size<10){ //if the inventory is not full yet, the resource can be added ad the end of the linked list
             while(inv->next!=NULL){
                 inv = inv->next;
@@ -175,7 +178,6 @@ int deleteItemFromInv(Item* item, inventory* inv, int quantity){
             temp = inv;
             inv = inv->next;
             free(temp); */
-    }
     else{
         inventory* temp;
         int difference = quantity - inv->inv->stock;
@@ -222,42 +224,20 @@ int deleteItemFromInv(Item* item, inventory* inv, int quantity){
                     return 1;
                     printf("%d piece(s) of %s were withdrawn from the inventory.\n", quantity, item->name);
                 }
-            } while (inv->next != NULL);
-
-            //if item is not stocked in the first case or if the demanded quantity is higher than what has already been withdrawn and the item is stocked in multiple cases
-            while(inv->next != NULL){
-                difference = quantity - inv->next->inv->stock;
-                if(inv->next->inv->item->id == item->id){//checks if the item can be found in the next case
-                    if(difference==0){//if the demanded quantity is equal to the stock present in the next item's case
-                        temp = inv->next;
-                        inv->next = inv->next->next;
-                        free(temp);
-                        printf("%d piece(s) of %s were withdrawn from the inventory.\n", quantity, item->name )
-                        return 1;
-                    }
-                    if else (difference>0){//if the demanded quantity is higher than the stock present in the next item's case
-                        quantity -= inv->next->inv->stock;
-                        temp = inv->next;
-                        inv->next = inv->next->next;
-                        free(temp);
-                    }
-                    else{//if the stock in the inventory of the next item's case is higher than the demanded quantity
-                        inv->next->inv->stock -= quantity;
-                        return 1;
-                        printf("%d piece(s) of %s were withdrawn from the inventory.\n", quantity, item->name )
-                    }
-                }
-                inv = inv->next;
-            }
+            } 
 
         }
+        return 0;
 
     }
+    return 0;
+
+}
 
 void deleteItemFromInv2(Item* item, inventory* inv, int quantity) {
     int stockInInv = getStockItem(item->id, inv);
     int newAmount = stockInInv - quantity;
-
+    inventory* temp;
     inventory *inventoryData = getInventoryByItem(item, inv);
 
     inventoryData->inv->stock = newAmount;
