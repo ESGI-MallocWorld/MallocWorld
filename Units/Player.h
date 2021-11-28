@@ -53,7 +53,7 @@ void setPlayerExp(Player *this , int newVal);
 void setPlayerMaxHp(Player *this , int newVal);
 void setPlayerMaxExp(Player *this , int newVal);
 void setPlayerLocation(Player *this , int *newVal);
-void setPlayerLevel(Player *this , level levelData);
+void setPlayerLevel(Player *this , level *levelData);
 
 void LevelUp(Player *this );
 
