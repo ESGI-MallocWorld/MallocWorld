@@ -3,9 +3,31 @@
 #include"inventory.h"
 #include"../Units/Player.h"
 
+inventory* newItemAddToPlayer(int value1, int value2, int value3){ // create a new inventory entry
+    inventory* newInv=malloc(sizeof(inventory));
+    invInfo* invInfo=malloc(sizeof(invInfo));
+    invInfo->item=initItem(value2);
+    invInfo->item->durability=value3;
+    invInfo->stock=value1;
+    newInv->inv=invInfo;
+    newInv->next=NULL;
 
-void loadGame(Player** player, inventory** invNPC){
-   /* 
+    return newInv;
+}
+
+inventory* newItemAddToNPC(int value1, int value2){ // create a new inventory entry
+    inventory* newInv=malloc(sizeof(inventory));
+    invInfo* invInfo=malloc(sizeof(invInfo));
+    invInfo->item=initItem(value2);
+    invInfo->stock=value1;
+    newInv->inv=invInfo;
+    newInv->next=NULL;
+
+    return newInv;
+}
+
+void loadGame(Player* player, inventory* invNPC){
+   
 
     char test[100];
     int t1,t2,t3;
@@ -13,32 +35,82 @@ void loadGame(Player** player, inventory** invNPC){
     FILE *f = fopen("text.txt","r");
     if (f!=NULL)
     {   
-        for (int i = 0; i < 10; i++)
+        
+        while(fgetc(f)!='{'){ //advance until we find '{'
+            }
+        fscanf(f,"%d}\n",&t1); // CURRENT LEVEL
+        if (t1!=0)
+            {
+                 player->level=t1;
+            }    
+
+        while(fgetc(f)!='{'){ //advance until we find '{'
+            }
+        fscanf(f,"%d}/{%d}\n",&t1,&t2); //CURRENT & MAX EXP
+        if (t1!=0)
+            {
+                 player->exp=t1;
+                 player->getMaxExp=t2;
+            } 
+
+        while(fgetc(f)!='{'){ //advance until we find '{'
+            }
+        fscanf(f,"%d}/{%d}\n",&t1,&t2); //CURRENT & MAX HP
+        if (t1!=0)
+            {
+                 player->currentHp=t1;
+                 player->maxHp=t2;
+            } 
+
+        for (int i = 0; i < 10; i++) // INVENTORY
         {
-            while(fgetc(f)!='{'){
-                
+            while(fgetc(f)!='{'){ //advance until we find '{'
                 }
             fscanf(f,"%d}@{%d}@{%d}\n",&t1,&t2,&t3);
-            if (t1!=0)
+            if (i==0)
             {
-                printf("%d %d %d\n",t1,t2,t3);
+                if (t1!=0)
+                {
+                    player->inventory=newItemAddToPlayer(t1,t2,t3);
+                }
+
+            } else {
+
+                if (t1!=0)
+                {
+                    player->inventory->next=newItemAddToPlayer(t1,t2,t3);
+                    player->inventory=player->inventory->next;
+                }
+
             }
+            
+            
         }
-        
+        int size=0;
         while (!feof(f))
-        {
-            while(fgetc(f)!='{'){
+        {   
+            while(fgetc(f)!='{'){ //STORAGE
                 
                 }
             fscanf(f,"%d}@{%d}\n",&t1,&t2);
             
-            printf("%d %d\n",t1,t2);
-            
+            invNPC->next=newItemAddToNPC(t1,t2);
+            invNPC=invNPC->next;
+
+            if (size==0)
+            {
+                invNPC=newItemAddToNPC(t1,t2);
+            } else {
+                invNPC->next=newItemAddToNPC(t1,t2);
+                invNPC=invNPC->next;
+            }
+
+            size=size+1; 
         }
         fclose(f);
     } else{
         printf("erreur");
-    } */
+    } 
 }
 
 void saveGame(Player* player, inventory* invNPC){
