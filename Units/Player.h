@@ -33,6 +33,7 @@ typedef struct Player{
      void (*setExp)(Player *this, int val);
      void (*setMaxExp)(Player *this, int val);
      void (*setLocation)(Player *this, int *val);
+     void (*setLevel)(Player *this, int *val);
 
 }Player;
 
