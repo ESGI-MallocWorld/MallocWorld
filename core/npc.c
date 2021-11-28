@@ -293,7 +293,7 @@ for (int i = 0; i < 2; i++)
 inventory* newItem = newItemFromCraft(val);
 
 addItemFromCraft(newItem,inv1);
-
+free(newItem);
 }
 
 void craftItem(inventory* invPlayer){ //print and choose the item to craft
