@@ -32,6 +32,8 @@ typedef struct inventory{
 
 inventory* newInventory();
 
+inventory* newElement(Item*, int);
+
 int getStockAmount(inventory *inventoryData);
 
 /**

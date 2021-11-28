@@ -4,16 +4,12 @@
 #include<time.h>
 #include "inventory.h"
 
+inventory* checkIfItemPresent(Item* item,inventory* inv){
+    inventory* newInv = malloc(sizeof(inventory));
 
-inventory* newInventory(){ // create a new inventory
-    inventory* newInv=malloc(sizeof(inventory));
-    invInfo* invInfo=malloc(sizeof(invInfo));
-    invInfo->item=NULL;
-    invInfo->stock=NULL;
-    newInv->inv=invInfo;
-    newInv->next=NULL;
-
-    return newInv;
+inventory* newInventory(){
+    inventory* invData = malloc(sizeof(inventory));
+    return invData;
 }
 
 int getStockAmount(inventory *inventoryData){
@@ -23,6 +19,7 @@ int getStockAmount(inventory *inventoryData){
 
 inventory* getInventoryByItem(Item* item,inventory* inv){
     inventory* newInv = newInventory();
+
     while(inv != NULL){
         if(inv->inv->item->id == item->id){
             invData = inv;
@@ -398,6 +395,7 @@ Item* isToolInInv(Item* resource,inventory* inv){
 }
 
 void addResourcetoInv(Item* resource, inventory* inv){
+    srand ( time(NULL) ); 
     Item *toolinInv = isToolInInv(resource, inv);
     if (toolinInv != NULL && toolinInv->durability > 0){
         toolinInv->durability = toolinInv->durability - (resource->harvestTool->durability * ((double)resource->toolUsuryByResource / 100));
@@ -414,7 +412,6 @@ void addResourcetoInv(Item* resource, inventory* inv){
 
 void harvestResource (int val, inventory* inv){
     Item* resource;
-    srand ( time(NULL) ); 
     switch(val){
         case 3:
             resource = initItem(7);
