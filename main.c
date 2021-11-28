@@ -7,7 +7,7 @@
 #include "./Units/Player.c"
 #include "./functions/Action.c"
 
-void main(int argc, char *argv[]){
+int main(int argc, char *argv[]){
     
     int action;
     int validAction;

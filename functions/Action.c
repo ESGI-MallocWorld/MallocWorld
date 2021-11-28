@@ -59,8 +59,8 @@ void runGame(Player* player ,map *map,inventory* NPC_inventory ){
             originLocation[0] = targetLocation[0];
             originLocation[1] = targetLocation[1];
         }else if(isMonster(element)){
-            monster = createMonsterfromID(element);
-            fight(player,monster);
+          /*  monster = createMonsterfromID(element);
+            fight(player,monster);*/
         }else if(isResource(element)){
             //claim
         }else if(isNPC(element)){
