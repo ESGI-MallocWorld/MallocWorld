@@ -55,3 +55,12 @@ int getMapMaxTrees(map* map){
 int getLevel(map* map){
     return map->level;
 }
+
+int **getMapData(map* map){
+    return map->mapData;
+}
+
+void assignLocation(int* location , int *X ,int *Y){
+    (*X) = location[0];
+    (*Y) = location[1];
+}

@@ -3,8 +3,10 @@
 #include"inventory.h"
 #include"../Units/Player.h"
 
-void importInv(Player** player, inventory** invNPC){
-    /*
+
+void loadGame(player** player, inventory** invNPC){
+   /* 
+
     char test[100];
     int t1,t2,t3;
 
@@ -39,9 +41,10 @@ void importInv(Player** player, inventory** invNPC){
     } */
 }
 
-void exportInv(Player* player, inventory* invNPC){
+void saveGame(player* player, inventory* invNPC){
+
    
-    FILE *f = fopen("text.txt","w+");
+    FILE *f = fopen("save.txt","w+");
     if (f!=NULL)
     {
         fprintf(f,"=== PLAYER ===\n");
@@ -68,14 +71,6 @@ void exportInv(Player* player, inventory* invNPC){
         
         fclose(f);
     } else{
-        printf("erreur");
+        printf("Erreur lors de la sauvegarde");
     }
 };
-
-void loadGame(inventory* invPlayer, inventory* invNPC){
-    
-    exportInv(invPlayer,invNPC);
-    
-   /* importInv(invPlayer,invNPC); */
-
-}

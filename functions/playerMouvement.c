@@ -1,56 +1,135 @@
 //
-// Created by wuchi on 2021/11/13.
+// Created by wuchi on 2021/10/13.
 //
-#ifndef MALLOCWORLD_PLAYERMOUVEMENT_H
-#define MALLOCWORLD_PLAYERMOUVEMENT_H
-
-#include "./mapInterReaction.h"
 
 #include "playerMouvement.h"
 #include "mapAction.h" // have been included in Action
 
-void addResource();
+int UpElement(int X , int Y ,int* targetLocation,int ** mapData){
 
-void mapInterReaction();
+    targetLocation [0] = X;
+    targetLocation [1] = Y-1;
 
-
-
-int* getPlayerLocation(Player *this){
-    return player->location;
+    return mapData[Y-1][X];
 }
 
-void goUp(playerData){
-    if(isRoad())
+int RightElement(int X , int Y ,int* targetLocation,int ** mapData){
+    targetLocation [0] = X+1;
+    targetLocation [1] = Y;
+
+    return mapData[Y][X+1];
 }
 
-void goRight();
+int DownElement(int X , int Y ,int* targetLocation,int ** mapData){
+    targetLocation [0] = X;
+    targetLocation [1] = Y+1;
 
+    return mapData[Y+1][X];
+}
 
-void goDown();
+int LeftElement(int X , int Y ,int* targetLocation,int ** mapData){
+    targetLocation [0] = X-1;
+    targetLocation [1] = Y;
 
+    return mapData[Y][X-1];
+}
 
-void goLeft();
+int getElement(int *location ,map* map ,int direction ,int *targetLocation){
 
+    int X , Y;
+    int element ;
+    int **mapData ;
 
-void move(Player playerData){
-    int direction ;
+    X = location[0];
+    Y = location[1];
 
-    scanf("%d" ,&direction)
+//    assignLocation(location,&X,&Y);
 
-    printf(" /n");
+    mapData = getMapData(map);
+
     switch (direction) {
         case 1: // go up        ↑
-            goUp(playerData);
+            element = UpElement(X,Y,targetLocation,mapData);
             break;
         case 2: // go right     →
-            goRight(playerData);
+            element = RightElement(X,Y,targetLocation,mapData);
             break;
         case 3: // go down      ↓
-            goDown(playerData);
+            element = DownElement(X,Y,targetLocation,mapData);
             break;
         case 4: // go left      ←
-            goLeft(playerData);
+            element = LeftElement(X,Y,targetLocation,mapData);
             break;
     }
+    return element ;
 }
 
+void movementDialogue(){
+    printf("Chose on action to do \n");
+    printf("0 : Leave Game  \n");
+    printf("1 : Go up    ↑  \n");
+    printf("2 : Go Right →  \n");
+    printf("3 : Go down  ↓  \n");
+    printf("4 : Go left  ←  \n");
+}
+
+int checkVoid(int direction,map *map ,int *location){
+    int X , Y;
+    assignLocation(location,&X,&Y);
+
+    int isVoid = 0;
+
+    if(direction == 1 && Y == 0){
+        isVoid = 1;
+    }else if(direction == 2 && X == (getMapColSize(map)-1) ){
+        isVoid = 1;
+    }else if(direction == 3 && Y == (getMapRowSize(map)-1) ){
+        isVoid = 1;
+    }else if(direction == 4 && X == 0){
+        isVoid = 1;
+    }
+    return isVoid;
+}
+
+void warning(int error){
+    if(error != 0)printf("|| Warning : Action invalid || \n");
+
+    if( error == 1 ){
+        printf("|| Choice a number between 0 to 4 || \n");
+    }else if (error == 2){
+        printf("|| You tried walk into the void || \n");
+    }
+
+}
+
+int move(int* playerLoc , map *map , int *targetLocation){
+    int direction ;
+    int element ;
+    int *location;
+    int error = 0 ;
+
+    do {
+        movementDialogue();
+        scanf("%d" ,&direction);
+        error = 0;
+        if(direction ==0){
+            continue;
+        }else if (direction > 5 || direction < 0){
+            error = 1 ;
+        }else if( checkVoid(direction , map , playerLoc) == 1){
+            error = 2;
+        }
+        warning(error);
+    } while (error != 0);
+
+    if(direction == 0){
+        element = -99;
+    } else {
+        element = getElement(playerLoc ,map,direction , targetLocation);
+    }
+    return element;
+
+
+
+
+}

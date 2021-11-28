@@ -57,4 +57,14 @@ int getMapMaxTrees(map* map);
 
 int getLevel(map* map);
 
+int** getMapData(map* map);
+
+/**
+ * This function need Location and then X and Y pass by reference and val will be assign on the X and Y
+ * @param location
+ * @param X
+ * @param Y
+ */
+void assignLocation(int* location , int *X ,int *Y);
+
 #endif //MALLOCWORLD_MAP_H
