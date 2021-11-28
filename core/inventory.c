@@ -4,12 +4,19 @@
 #include<time.h>
 #include "inventory.h"
 
-inventory* checkIfItemPresent(Item* item,inventory* inv){
-    inventory* newInv = malloc(sizeof(inventory));
+inventory* newInventory(){ // create a new inventory
+    inventory* newInv=malloc(sizeof(inventory));
+    invInfo* invInfo=malloc(sizeof(invInfo));
+    invInfo->item=NULL;
+    invInfo->stock=0;
+    newInv->inv=invInfo;
+    newInv->next=NULL;
 
-inventory* newInventory(){
-    inventory* invData = malloc(sizeof(inventory));
-    return invData;
+    return newInv;
+}
+
+inventory* checkIfItemPresent(Item* item,inventory* inv) {
+    inventory *newInv = malloc(sizeof(inventory));
 }
 
 int getStockAmount(inventory *inventoryData){

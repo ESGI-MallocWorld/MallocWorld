@@ -5,6 +5,7 @@
 
 #include "./core/inventory.h"
 #include "./Units/Player.c"
+#include "./core/npc.c"
 #include "./functions/Action.c"
 
 void main(int argc, char *argv[]){
@@ -14,7 +15,7 @@ void main(int argc, char *argv[]){
     Player* player;
     map *map;
     inventory* NPC_inventory;
-//    NPC_inventory = newInventory();
+    NPC_inventory = newInventory();
 
     do {
         validAction = 1;
