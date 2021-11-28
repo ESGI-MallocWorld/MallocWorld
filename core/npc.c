@@ -293,10 +293,10 @@ for (int i = 0; i < 2; i++)
 inventory* newItem = newItemFromCraft(val);
 
 addItemFromCraft(newItem,inv1);
-
+free(newItem);
 }
 
-void craftItem(inventory* invPlayer){ //print and choose the item to craft
+void craftItems(inventory* invPlayer){ //print and choose the item to craft
 
     int size=getSize(invPlayer); 
     if (size<10) 
@@ -344,7 +344,7 @@ void startNPC(inventory* invPlayer, inventory* invNPC){
         case 3:
             while (choice==3)
             {
-                craftItem(invPlayer);
+                craftItems(invPlayer);
                 printf("Hello, what do you want to do? \n 1->Deposit Items, 2->Take Items, 3->Craft Items, 4->Nothing : ");
                 scanf("%d", &choice);
             }
