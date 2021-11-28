@@ -4,6 +4,7 @@
 #include"itemsUnified.c"
 
 inventory* newInventory(){ // create a new inventory 
+    printf("test fonction newInventory \n");
     inventory* newInv=malloc(sizeof(inventory));
     invInfo* invInfo=malloc(sizeof(invInfo));
     invInfo->item=NULL;

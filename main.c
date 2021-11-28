@@ -8,13 +8,13 @@
 #include "./core/npc.c"
 #include "./functions/Action.c"
 
-void main(int argc, char *argv[]){
+int main(int argc, char *argv[]){
     int action;
     int validAction;
 
     Player* player;
     map *map;
-    inventory* NPC_inventory;
+    inventory* NPC_inventory = malloc(sizeof(inventory));
     NPC_inventory = newInventory();
 
     do {
@@ -39,9 +39,11 @@ void main(int argc, char *argv[]){
             }
         case 2:
 
-            runGame(player ,map,NPC_inventory );
+            runGame(player ,map, NPC_inventory );
             break;
 
     }
     printf("end programme\n");
+
+    return 0;
 }

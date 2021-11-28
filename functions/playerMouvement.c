@@ -4,6 +4,7 @@
 
 #include "playerMouvement.h"
 #include "mapAction.h" // have been included in Action
+#include<stdio.h>
 
 int UpElement(int X , int Y ,int* targetLocation,int ** mapData){
 

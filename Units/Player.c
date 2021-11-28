@@ -73,7 +73,7 @@ void playerLevelUp(Player *this){
     this->setMaxHp(this,newLevelData->maxHp);
     this->setCurrentHp(this,newLevelData->maxHp);
 
-    this->setPlayerLevel(this,newLevelData);
+    this->setLevel(this,newLevelData);
     printf("Player level UP !!\n");
 
 }

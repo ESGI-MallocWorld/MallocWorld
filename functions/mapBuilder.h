@@ -6,7 +6,9 @@
 #define MALLOCWORLD_MAPBUILDER_H
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
+#include <stdbool.h>
 #include "../core/map.c"
 
 /**
