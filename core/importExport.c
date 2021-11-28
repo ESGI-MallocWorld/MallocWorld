@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"inventory.h"
+#include"../Units/Player.h"
 
 
-void loadGame(player** player, inventory** invNPC){
+void loadGame(Player** player, inventory** invNPC){
    /* 
 
     char test[100];
@@ -40,21 +41,22 @@ void loadGame(player** player, inventory** invNPC){
     } */
 }
 
-void saveGame(player* player, inventory* invNPC){
+void saveGame(Player* player, inventory* invNPC){
+
    
     FILE *f = fopen("save.txt","w+");
     if (f!=NULL)
     {
         fprintf(f,"=== PLAYER ===\n");
-        fprintf(f,"{%d}",playerLevel);
-        fprintf(f,"{%d}/{%d}",xpCurrent,xpNext);
-        fprintf(f,"{%d}/{%d}",hpCurrent,hpMax);
+        fprintf(f,"{%d}",player->level);
+        fprintf(f,"{%d}/{%d}",player->exp,player->getMaxExp);
+        fprintf(f,"{%d}/{%d}",player->currentHp,player->maxHp);
         fprintf(f,"-- INVENTORY --\n");
         int size=0;
-        while(invPlayer!=NULL){
+        while(player->inventory!=NULL){
             size=size+1;
-            fprintf(f,"{%d}@{%d}@{%d}\n",invPlayer->inv->stock,invPlayer->inv->item->id,invPlayer->inv->item->durability);
-            invPlayer=invPlayer->next;
+            fprintf(f,"{%d}@{%d}@{%d}\n",player->inventory->inv->stock,player->inventory->inv->item->id,player->inventory->inv->item->durability);
+            player->inventory=player->inventory->next;
         }
         for (int i = 0; i < 10-size; i++)
         {
