@@ -6,7 +6,7 @@
 
 typedef struct level {
     int levelID;
-    int maxHP;
+    int maxHp;
     int minExp;
     int maxExp; //if exp of player > maxEsp then the player's level will be upgraded
 

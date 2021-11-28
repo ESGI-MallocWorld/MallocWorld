@@ -1,7 +1,7 @@
 #ifndef MALLOCWORLD_ITEMSUNIFIED_H
 #define MALLOCWORLD_ITEMSUNIFIED_H
 
-#include"inventory.h"
+typedef struct Item Item;
 
 typedef enum itemName{
     EpeeEnBois = 1,
@@ -40,7 +40,6 @@ typedef enum itemName{
     PotionDeVie3
 } itemName;
 
-
 typedef enum Type {
     Resource = 1,
     Tool,
@@ -71,21 +70,24 @@ typedef struct Item{
 
 } Item;
 
-Item* initAttributes(Type, int , char* ,int ,int , int , int , int , int , int ,Item* , int , int , int );
+Item* initAttributes(Type type, int id, char* name,int zone,int durability, int craftResource1, int amount1, int craftResource2, int amount2, int toolUsuryByResource,Item* harvestTool, int damage, int resistance, int restoredHP);
 
-char* getItemName(int); //returns the name of the item which's ID is the integer given as a parameter
+/**
+ * returns the name of the item which's ID is the integer given as a parameter
+ * @param val
+ * @return
+ */
+char* getItemName(int val);
 
+/**
+ * Function that creates a item when item ID is given as a parameter
+ * @param val
+ * @return
+ */
+Item* initItem(int val);
 
-Item* initItem(int);
+void toString();
 
-void craftItem(int, inventory*, inventory*, int);
-
-void addResourcetoInv(Item*, inventory*, inventory* );
-
-void harvestResource(int, inventory*);
-
-Item* isToolinInv(Item*,inventory*);
-
-void toString()
+Item* getItemfromID (int);
 
 #endif
