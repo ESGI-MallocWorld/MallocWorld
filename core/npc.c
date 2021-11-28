@@ -165,8 +165,8 @@ Item* newItem=malloc(sizeof(Item));
 newItem=initItem(val);
 
 
-int id=newItem->craftResources[ressourceNumber-1][0];
-int amount=newItem->craftResources[ressourceNumber-1][1];
+int id=newItem->craftResources[ressourceNumber][0];
+int amount=newItem->craftResources[ressourceNumber][1];
 
 if (id==0 && amount==0)
 {
@@ -319,7 +319,7 @@ void startNPC(inventory* invPlayer, inventory* invNPC){
         case 3:
             while (choice==3)
             {
-                craftItems(invPlayer);
+                craftItem(invPlayer);
                 printf("1:\n");
                 printInventory(invPlayer);
                 printf("2:\n");
@@ -337,6 +337,8 @@ void startNPC(inventory* invPlayer, inventory* invNPC){
 
 
 }
+
+
 
 /*void main (int argc, char *argv[]){
 
