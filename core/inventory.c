@@ -54,8 +54,14 @@ int getSizeInv(inventory* inv){
 }
 
 int getStockItem(int itemID, inventory* inv){
-    inventoryData = getInventoryByItem(itemID,inv);
-    return getStockAmount(inventoryData);
+    int stock = 0;
+    while(inv != NULL){
+        if(inv->inv->item->id == itemID){
+            stock += inv->inv->stock;
+        }
+        inv = inv->next;
+    }
+    return stock;
 }
 
 
