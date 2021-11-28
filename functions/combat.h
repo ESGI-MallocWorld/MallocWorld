@@ -5,12 +5,22 @@
 #ifndef MALLOCWORLD_COMBAT_H
 #define MALLOCWORLD_COMBAT_H
 
-#include "./core/inventory.h"
-#include "./Units/enemis.h"
-#include "./Units/Player.h"
+#include "../core/inventory.h"
+#include "../Units/enemis.h"
+#include "../Units/Player.h"
 
-void round(Player*, Enemy*);
+Item* checkDurabilityofWeapon (int, Player*, Enemy*);
 
-void fight(Player* player, Enemy* monster);
+Item* chooseWeapon(Player*, Enemy*);
+
+Item* chooseArmor(Player*);
+
+Item* choosePotion(Player*);
+
+int roundPlayer(Player*, Item*, Enemy*);
+
+int roundMonster(Player*, Item*, Enemy*);
+
+int fight(Player*, Enemy*);
 
 #endif //MALLOCWORLD_COMBAT_H

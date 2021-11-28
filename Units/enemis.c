@@ -1,4 +1,6 @@
 #include "enemis.h"
+#include<stdio.h>
+#include<stdlib.h>
 
 /*
 *ZONE 1 : 12-40 
@@ -20,36 +22,36 @@ Enemy* initializeMonster(int id, char* name, int zone, int life, int damage, int
 
 Enemy** createMonsters(){
 
-Enemy** listofMonsters = callocn(29,sizeof(Enemy*));
+Enemy** listofMonsters = calloc(29,sizeof(Enemy*));
 for (int i=0; i<29; i+= 1){
     listofMonsters [i] = malloc(sizeof(Enemy));
 }
 
-Enemy* Hulk = initialiseMonster(12,"Hulk", 1, 50, 5, 25);
+Enemy* Hulk = initializeMonster(12,"Hulk", 1, 10, 5, 25);
 listofMonsters [12] = Hulk;
 
-Enemy* Goblin= initialiseMonster(15,"Goblin", 1, 50, 5, 25);
+Enemy* Goblin= initializeMonster(15,"Goblin", 1, 10, 5, 25);
 listofMonsters [15] = Goblin;
 
-Enemy* Troll= initialiseMonster(25,"Troll", 1, 50, 5, 25);
+Enemy* Troll= initializeMonster(25,"Troll", 1, 10, 5, 25);
 listofMonsters [25] = Troll;
 
-Enemy* Cruella = initialiseMonster(41,"Cruella", 2, 110, 10, 60);
+Enemy* Cruella = initializeMonster(41,"Cruella", 2, 25, 15, 60);
 listofMonsters [41] = Cruella;
 
-Enemy* Joker = initialiseMonster(50,"Joker", 2, 110, 10, 60);
+Enemy* Joker = initializeMonster(50,"Joker", 2, 25, 15, 60);
 listofMonsters [50] = Joker;
 
-Enemy* Devil = initialiseMonster(69,"Devil", 2, 110, 10, 60);
+Enemy* Devil = initializeMonster(69,"Devil", 2, 25, 15, 60);
 listofMonsters [69] = Devil;
 
-Enemy* Voldemort = initialiseMonster(70,"Voldemort", 3, 50, 500, 500);
+Enemy* Voldemort = initializeMonster(70,"Voldemort", 3, 50, 40, 150);
 listofMonsters [70] = Voldemort;
 
-Enemy* Zombie = initialiseMonster(80,"Zombie", 3, 50, 500, 500);
+Enemy* Zombie = initializeMonster(80,"Zombie", 3, 50, 40, 150);
 listofMonsters [80] = Zombie;
 
-Enemy * Sauron = initialiseMonster(98,"Sauron", 3, 50, 500, 500);
+Enemy * Sauron = initializeMonster(98,"Sauron", 3, 50, 40, 150);
 listofMonsters [98] = Sauron;
 
 return listofMonsters;
