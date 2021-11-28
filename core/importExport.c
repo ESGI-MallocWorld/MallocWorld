@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include"inventory.h"
 
-void importInv(inventory* invPlayer, inventory* invNPC){
+void importInv(player** player, inventory** invNPC){
     /*
     char test[100];
     int t1,t2,t3;
@@ -38,27 +38,11 @@ void importInv(inventory* invPlayer, inventory* invNPC){
     } */
 }
 
-void exportInv(inventory* invPlayer, inventory* invNPC){
+void exportInv(player* player, inventory* invNPC){
    
     FILE *f = fopen("text.txt","w+");
     if (f!=NULL)
     {
-        fprintf(f,"=== MAP ===\n");
-        fprintf(f,"-- ZONE 1 --\n");
-
-
-
-        fprintf(f,"-- ZONE 3 --\n");
-
-
-
-
-        fprintf(f,"-- ZONE 3 --\n");
-
-
-
-
-    
         fprintf(f,"=== PLAYER ===\n");
         fprintf(f,"{%d}",playerLevel);
         fprintf(f,"{%d}/{%d}",xpCurrent,xpNext);
