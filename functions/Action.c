@@ -6,13 +6,26 @@
 #include "Action.h"
 #include "./mapAction.h"
 #include "./playerMouvement.h"
+//#include "../core/inventory.h"
 
-void runGame(){
+void addResource();
+
+void mapInterReaction(int element){
+
+    if(isResource(element)){
+//        claimRessource();
+    }else if(isMonster(element)){
+        //combat(element)
+    }else if(isNPC(element)){
+//        startNPC()//
+    }
+
+}
+
+void runGame(Player* player ,map *map,inventory* NPC_inventory ){
     //init val
-    Player* player;
-    map *map;
     int GameProgress;
-    int *plaLoc = malloc(sizeof (int)*2);
+    int *playerLoc = malloc(sizeof (int)*2);
 
     // assign val
     player = newPlayer();
@@ -20,7 +33,7 @@ void runGame(){
 
     player->setLocation(player,PlayerLocalize(map));
     GameProgress = 1 ;
-    plaLoc = player->getLocation(player);
+    playerLoc = player->getLocation(player);
 
 
     while (GameProgress == 1){
@@ -28,4 +41,12 @@ void runGame(){
         GameProgress = 0;
     }
 
+
+
+//    SendToNPC(player , map , NPC_inventory);
+
+
+
 }
+
+

@@ -4,9 +4,16 @@
 #include<time.h>
 #include "inventory.h"
 
-inventory* newInventory(){
-    inventory* invData = malloc(sizeof(inventory));
-    return invData;
+
+inventory* newInventory(){ // create a new inventory
+    inventory* newInv=malloc(sizeof(inventory));
+    invInfo* invInfo=malloc(sizeof(invInfo));
+    invInfo->item=NULL;
+    invInfo->stock=NULL;
+    newInv->inv=invInfo;
+    newInv->next=NULL;
+
+    return newInv;
 }
 
 int getStockAmount(inventory *inventoryData){

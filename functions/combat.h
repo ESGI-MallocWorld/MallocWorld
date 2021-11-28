@@ -5,9 +5,9 @@
 #ifndef MALLOCWORLD_COMBAT_H
 #define MALLOCWORLD_COMBAT_H
 
-#include "./core/inventory.h"
-#include "./Units/enemis.h"
-#include "./Units/Player.h"
+#include "../core/inventory.h"
+#include "../Units/enemis.h"
+#include "../Units/Player.h"
 
 void round(Player*, Enemy*);
 

@@ -4,51 +4,25 @@
 #ifndef MALLOCWORLD_PLAYERMOUVEMENT_H
 #define MALLOCWORLD_PLAYERMOUVEMENT_H
 
-#include "../core/mapInterReaction.h"
+//#include "../core/mapInterReaction.h"
+//#include "../Units/Player.h"
 
 #include "playerMouvement.h"
 #include "mapAction.h" // have been included in Action
 
-void addResource();
+int UpElement(int X , int Y ,int ** mapData);
 
-void mapInterReaction();
+int RightElement(int X , int Y ,int ** mapData);
 
+int DownElement(int X , int Y ,int ** mapData);
 
+int LeftElement(int X , int Y ,int ** mapData);
 
-int* getPlayerLocation(Player *this){
-    return player->location;
-}
+int getElement(int *location ,map* mapData ,int direction);
 
-void goUp(playerData){
-    if(isRoad())
-}
+void movementDialogue();
 
-void goRight();
-void goDown();
-void goLeft();
-
-
-void move(Player playerData){
-    int direction ;
-
-    scanf("%d" ,&direction)
-
-    switch (direction) {
-        case 1: // go up        ↑
-            goUp(playerData);
-            break;
-        case 2: // go right     →
-            goRight(playerData);
-            break;
-        case 3: // go down      ↓
-            goDown(playerData);
-            break;
-        case 4: // go left      ←
-            goLeft(playerData);
-            break;
-    }
-}
-
+int move(int* playerLoc , map *mapData);
 
 
 #endif //MALLOCWORLD_PLAYERMOUVEMENT_H

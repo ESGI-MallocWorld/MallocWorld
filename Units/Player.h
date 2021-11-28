@@ -13,7 +13,7 @@ typedef struct Player{
      int maxHp;
      int exp;
      level* level;
-//     inventory* inventory;
+     inventory* inventory;
      int* location;
 
      // getter
@@ -23,6 +23,8 @@ typedef struct Player{
      int (*getMaxExp)(Player *this);
      int* (*getLocation)(Player *this);
      int (*getLevel)(Player *this);
+     inventory* (*getInventory)(Player *this);
+
 
      // setter
      void (*setCurrentHp)(Player *this, int val);
@@ -30,6 +32,7 @@ typedef struct Player{
      void (*setExp)(Player *this, int val);
      void (*setMaxExp)(Player *this, int val);
      void (*setLocation)(Player *this, int *val);
+     void (*setInventory)(Player *this ,inventory *Inventory);
 
 }Player;
 
@@ -39,6 +42,8 @@ int getPlayerExp(Player *this);
 int getPlayerMaxExp(Player *this);
 int* getPlayerLocation(Player *this);
 int getPlayerLevel(Player *this);
+inventory* getPlayerInventory(Player *this);
+
 
 void setPlayerCurrentHp(Player *this ,  int newVal);
 void setPlayerExp(Player *this , int newVal);
