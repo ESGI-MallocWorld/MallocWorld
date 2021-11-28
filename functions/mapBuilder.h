@@ -88,7 +88,7 @@ void addPortal(map* map){
         int x = loc[0];
         int y = loc[1];
 
-        map->mapData[x][y] = -1;
+        map->mapData[x][y] = -2;
     }
 
     //add portal travel between zone2-3
@@ -97,7 +97,7 @@ void addPortal(map* map){
         int x = loc[0];
         int y = loc[1];
 
-        map->mapData[x][y] = -2;
+        map->mapData[x][y] = -3;
     }
 
 }
@@ -390,9 +390,10 @@ void printColorCode(int locationCode){
     switch (locationCode) {
         case -3:// portal
         case -2:
+        case -50: // reset
             printf("\033[1;37m");break;
         case -1: // wall
-            printf("\033[1;30m");break;
+            printf("\033[0;30m");break;
         case 1: // player
         case 2: // NPC
             printf("\033[0;36m"); break;
@@ -409,7 +410,7 @@ void printColorCode(int locationCode){
         case 11: // tree
             printf("\033[0;32m"); break;
         case 0: // road
-            printf("\033[0;30m"); break;
+            printf("\033[1;30m"); break;
         default:
             if(locationCode >=12 && locationCode <= 98){
                 printf("\033[0;31m");
@@ -431,6 +432,7 @@ void printMap(map *map){
         }
         printf("\n");
     }
+    printColorCode(-50);
 }
 
 /**

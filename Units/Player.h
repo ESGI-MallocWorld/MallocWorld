@@ -34,9 +34,13 @@ typedef struct Player{
      void (*setMaxHp)(Player *this, int val);
      void (*setExp)(Player *this, int val);
      void (*setMaxExp)(Player *this, int val);
+     void (*setLevel)(Player *this, level *levelData);
      void (*setLocation)(Player *this, int *val);
      void (*setInventory)(Player *this ,inventory *Inventory);
 
+     //method
+     void (*levelUp)(Player *this );
+     void (*displayStats)(Player *this);
 }Player;
 
 int getPlayerCurrentHp(Player *this);
@@ -55,7 +59,9 @@ void setPlayerMaxExp(Player *this , int newVal);
 void setPlayerLocation(Player *this , int *newVal);
 void setPlayerLevel(Player *this , level *levelData);
 
-void LevelUp(Player *this );
+void playerLevelUp(Player *this);
+void displayPlayerStats(Player *this);
+
 
 Player* newPlayer();
 #endif 

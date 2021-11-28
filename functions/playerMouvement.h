@@ -7,22 +7,25 @@
 //#include "../core/mapInterReaction.h"
 //#include "../Units/Player.h"
 
-#include "playerMouvement.h"
 #include "mapAction.h" // have been included in Action
 
-int UpElement(int X , int Y ,int ** mapData);
+int UpElement(int X , int Y ,int *targetLocation,int ** mapData);
 
-int RightElement(int X , int Y ,int ** mapData);
+int RightElement(int X , int Y ,int *targetLocation,int ** mapData);
 
-int DownElement(int X , int Y ,int ** mapData);
+int DownElement(int X , int Y ,int *targetLocation,int ** mapData);
 
-int LeftElement(int X , int Y ,int ** mapData);
+int LeftElement(int X , int Y ,int *targetLocation,int ** mapData);
 
-int getElement(int *location ,map* mapData ,int direction);
+int getElement(int *location ,map* mapData ,int direction,int *targetLocation);
 
 void movementDialogue();
 
-int move(int* playerLoc , map *mapData);
+int checkVoid(int direction,map *map ,int *location);
+
+void warning(int error);
+
+int move(int* playerLoc , map *mapData,int *targetLocation);
 
 
 #endif //MALLOCWORLD_PLAYERMOUVEMENT_H

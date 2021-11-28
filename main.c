@@ -13,7 +13,8 @@ void main(int argc, char *argv[]){
 
     Player* player;
     map *map;
-    inventory* NPC_inventory = newInventory();
+    inventory* NPC_inventory;
+//    NPC_inventory = newInventory();
 
     do {
         validAction = 1;
