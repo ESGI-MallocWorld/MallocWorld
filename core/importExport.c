@@ -55,8 +55,8 @@ void saveGame(Player* player, inventory* invNPC){
         int size=0;
         while(player->inventory!=NULL){
             size=size+1;
-            fprintf(f,"{%d}@{%d}@{%d}\n",player->inventory->stock,player->inventory->inv->item->id,invPlayer->inv->item->durability);
-            invPlayer=invPlayer->next;
+            fprintf(f,"{%d}@{%d}@{%d}\n",player->inventory->inv->stock,player->inventory->inv->item->id,player->inventory->inv->item->durability);
+            player->inventory=player->inventory->next;
         }
         for (int i = 0; i < 10-size; i++)
         {
