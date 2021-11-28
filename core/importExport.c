@@ -4,7 +4,7 @@
 #include"../Units/Player.h"
 
 
-void loadGame(player** player, inventory** invNPC){
+void loadGame(Player** player, inventory** invNPC){
    /* 
 
     char test[100];
@@ -41,7 +41,7 @@ void loadGame(player** player, inventory** invNPC){
     } */
 }
 
-void saveGame(player* player, inventory* invNPC){
+void saveGame(Player* player, inventory* invNPC){
 
    
     FILE *f = fopen("save.txt","w+");
