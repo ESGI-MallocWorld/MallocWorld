@@ -1,6 +1,18 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"inventory.h"
+#include"itemsUnified.c"
+
+inventory* newInventory(){ // create a new inventory 
+    inventory* newInv=malloc(sizeof(inventory));
+    invInfo* invInfo=malloc(sizeof(invInfo));
+    invInfo->item=NULL;
+    invInfo->stock=0;
+    newInv->inv=invInfo;
+    newInv->next=NULL;
+
+    return newInv;
+}
 
 int getSize(inventory* inv1){//get the size of an inventory
     int size=1;
@@ -126,9 +138,9 @@ void takeItems(inventory* inv2, inventory* inv1){ //take items from the NPC's in
 
         if (size<10) //if size < 10 then we add the choosedItem to the inventory
         {
-        /* Item* newItem=malloc(sizeof(Item));
+            Item* newItem=malloc(sizeof(Item));
             newItem=initItem(choosedItem->inv->item->id);
-            choosedItem->inv->item=newItem;*/
+            choosedItem->inv->item=newItem;
             
             addItem(choosedItem,inv1);
 
@@ -317,10 +329,6 @@ void startNPC(inventory* invPlayer, inventory* invNPC){
             while (choice==1)
             {
                 depositItems(invPlayer,invNPC);
-                printf("1:\n");
-                printInventory(invPlayer);
-                printf("2:\n");
-                printInventory(invNPC);
                 printf("Hello, what do you want to do? \n 1->Deposit Items, 2->Take Items, 3->Craft Items, 4->Nothing : ");
                 scanf("%d", &choice);
             }
