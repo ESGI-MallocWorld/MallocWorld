@@ -2,8 +2,10 @@
 #include<stdlib.h>
 #include"inventory.h"
 
+
 void loadGame(player** player, inventory** invNPC){
    /* 
+
     char test[100];
     int t1,t2,t3;
 
