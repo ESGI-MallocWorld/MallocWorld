@@ -8,10 +8,7 @@
 #include "./functions/Action.c"
 
 int main(int argc, char *argv[]){
-<<<<<<< HEAD
-=======
     
->>>>>>> 8359dccd086f650492343bd434fe7903dcbb627e
     int action;
     int validAction;
 
