@@ -36,13 +36,11 @@ map* gen_map(int zone_number){
 int* PlayerLocalize(map *map){
     int row , col;
     int *localisation = malloc(sizeof (int) *2);
-//    printf(" 3 \n");
     row = getMapRowSize(map);
     col = getMapColSize(map);
-    printf(" 1 \n");
-    for (int x = 0; x < row; ++x) {
-        for (int y = 0; y < col; ++y) {
-            if(map->mapData[x][y] == 1 ){
+    for (int y = 0; y < col; ++y) {
+        for (int x = 0; x < row; ++x) {
+            if(map->mapData[y][x] == 1 ){
                 localisation[0] = x;
                 localisation[1] = y;
                 return localisation;

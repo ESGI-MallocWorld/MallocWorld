@@ -63,7 +63,7 @@ typedef struct Item{
     int durability; // Tools & Weapons
     int** craftResources; //2 rows and 2 columns; First column = resource id, second column=quantity //Tools, weapons, armors & potions
     int toolUsuryByResource; //// pourcentage of damage on tools when resource collected //Resource
-    Item* harvestTool; //Tool with which the resource has to harvested //Resource
+    struct Item* harvestTool; //Tool with which the resource has to harvested //Resource
     int damage; //Weapon
     int resistance; //Armor (percentage)
     int restoredHP; //Potion

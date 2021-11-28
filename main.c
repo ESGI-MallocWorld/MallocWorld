@@ -5,13 +5,17 @@
 
 #include "./core/inventory.h"
 #include "./Units/Player.c"
+#include "./core/npc.c"
 #include "./functions/Action.c"
-
-bool gameAction();//return value "false" only when save
 
 void main(int argc, char *argv[]){
     int action;
     int validAction;
+
+    Player* player;
+    map *map;
+    inventory* NPC_inventory;
+    NPC_inventory = newInventory();
 
     do {
         validAction = 1;
@@ -33,9 +37,9 @@ void main(int argc, char *argv[]){
                 }else{ // chose = 1 , load current profile
                 }
             }
-            break;
         case 2:
-            runGame();
+
+            runGame(player ,map,NPC_inventory );
             break;
 
     }
