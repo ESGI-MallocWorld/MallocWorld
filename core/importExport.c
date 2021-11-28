@@ -32,7 +32,7 @@ void loadGame(Player* player, inventory* invNPC){
     char test[100];
     int t1,t2,t3;
 
-    FILE *f = fopen("text.txt","r");
+    FILE *f = fopen("save.txt","r");
     if (f!=NULL)
     {   
         
@@ -41,7 +41,7 @@ void loadGame(Player* player, inventory* invNPC){
         fscanf(f,"%d}\n",&t1); // CURRENT LEVEL
         if (t1!=0)
             {
-                 player->level=t1;
+                 player->level->levelID=t1;
             }    
 
         while(fgetc(f)!='{'){ //advance until we find '{'
@@ -50,7 +50,7 @@ void loadGame(Player* player, inventory* invNPC){
         if (t1!=0)
             {
                  player->exp=t1;
-                 player->getMaxExp=t2;
+                 player->level->maxExp=t2;
             } 
 
         while(fgetc(f)!='{'){ //advance until we find '{'
@@ -120,8 +120,8 @@ void saveGame(Player* player, inventory* invNPC){
     if (f!=NULL)
     {
         fprintf(f,"=== PLAYER ===\n");
-        fprintf(f,"{%d}",player->level);
-        fprintf(f,"{%d}/{%d}",player->exp,player->getMaxExp);
+        fprintf(f,"{%d}",player->level->levelID);
+        fprintf(f,"{%d}/{%d}",player->exp,player->level->maxExp);
         fprintf(f,"{%d}/{%d}",player->currentHp,player->maxHp);
         fprintf(f,"-- INVENTORY --\n");
         int size=0;
