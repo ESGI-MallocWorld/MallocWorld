@@ -43,6 +43,22 @@ void exportInv(inventory* invPlayer, inventory* invNPC){
     FILE *f = fopen("text.txt","w+");
     if (f!=NULL)
     {
+        fprintf(f,"=== MAP ===\n");
+        fprintf(f,"-- ZONE 1 --\n");
+
+
+
+        fprintf(f,"-- ZONE 3 --\n");
+
+
+
+
+        fprintf(f,"-- ZONE 3 --\n");
+
+
+
+
+    
         fprintf(f,"=== PLAYER ===\n");
         fprintf(f,"{%d}",playerLevel);
         fprintf(f,"{%d}/{%d}",xpCurrent,xpNext);
