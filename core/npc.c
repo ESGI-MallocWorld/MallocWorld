@@ -3,6 +3,17 @@
 #include"inventory.h"
 #include"itemsUnified.c"
 
+inventory* newInventory(){ // create a new inventory 
+    inventory* newInv=malloc(sizeof(inventory));
+    invInfo* invInfo=malloc(sizeof(invInfo));
+    invInfo->item=NULL;
+    invInfo->stock=0;
+    newInv->inv=invInfo;
+    newInv->next=NULL;
+
+    return newInv;
+}
+
 int getSize(inventory* inv1){//get the size of an inventory
     int size=1;
     while (inv1->next != NULL){
