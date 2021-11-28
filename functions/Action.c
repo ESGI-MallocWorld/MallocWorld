@@ -47,13 +47,19 @@ void runGame(Player* player ,map *map,inventory* NPC_inventory ){
         element = move(originLocation , map , targetLocation);
         if(element == -99){
             GameProgress = 0;
-        }else if( element == 0 ){
+        }else if( isRoad(element) ){
             assignLocation(originLocation,&Y,&X);
             map->mapData[X][Y] = 0;
             assignLocation(targetLocation,&Y,&X);
             map->mapData[X][Y] = 1;
             originLocation[0] = targetLocation[0];
             originLocation[1] = targetLocation[1];
+        }else if(isMonster(element)){
+            //startcombat
+        }else if(isResource(element)){
+            //claim
+        }else if(isNPC(element)){
+            startNPC( player->getInventory(player),NPC_inventory);
         }
 
         printf("target location X : %d , Y : %d , Element :%d \n",Y,X,element);
