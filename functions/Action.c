@@ -6,7 +6,9 @@
 #include "Action.h"
 #include "./mapAction.h"
 #include "./playerMouvement.c"
+#include "../Units/enemis.h"
 //#include "../core/inventory.h"
+#include "combat.h"
 
 void addResource();
 
@@ -15,7 +17,7 @@ void mapInterReaction(int element){
     if(isResource(element)){
 //        claimRessource();
     }else if(isMonster(element)){
-        //combat(element)
+
     }else if(isNPC(element)){
 //        startNPC()//
     }
@@ -29,6 +31,7 @@ void runGame(Player* player ,map *map,inventory* NPC_inventory ){
     int *targetLocation ;
     int *originLocation;
     int X, Y;
+    Enemy *monster ;
 
     // assign val
     player = newPlayer();
@@ -55,7 +58,8 @@ void runGame(Player* player ,map *map,inventory* NPC_inventory ){
             originLocation[0] = targetLocation[0];
             originLocation[1] = targetLocation[1];
         }else if(isMonster(element)){
-            //startcombat
+            monster = createMonsterfromID(element);
+            fight(player,monster);
         }else if(isResource(element)){
             //claim
         }else if(isNPC(element)){
