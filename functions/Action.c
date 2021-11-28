@@ -9,6 +9,7 @@
 #include "../Units/enemis.h"
 //#include "../core/inventory.h"
 #include "combat.h"
+#include "../core/npc.c"
 
 void addResource();
 
@@ -59,12 +60,12 @@ void runGame(Player* player ,map *map, inventory* NPC_inventory){
             originLocation[0] = targetLocation[0];
             originLocation[1] = targetLocation[1];
         }else if(isMonster(element)){
-            monster = createMonsterfromID(element);
-            fight(player,monster);
+          /*  monster = createMonsterfromID(element);
+            fight(player,monster);*/
         }else if(isResource(element)){
             //claim
         }else if(isNPC(element)){
-            //startNPC( player->inventory,player->inventory);
+            startNPC(player->getInventory(player),NPC_inventory);
         }
 
         printf("target location X : %d , Y : %d , Element :%d \n",Y,X,element);

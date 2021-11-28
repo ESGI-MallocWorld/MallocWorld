@@ -15,9 +15,6 @@ inventory* newInventory(){ // create a new inventory
     return newInv;
 }
 
-inventory* checkIfItemPresent(Item* item,inventory* inv) {
-    inventory *newInv = malloc(sizeof(inventory));
-}
 
 int getStockAmount(inventory *inventoryData){
     return inventoryData->inv->stock ;

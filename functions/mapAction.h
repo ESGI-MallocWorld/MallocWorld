@@ -47,6 +47,7 @@ int* PlayerLocalize(map *map){
             }
         }
     }
+    return 0;
 }
 
 int isPortal(int element){

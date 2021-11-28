@@ -5,10 +5,13 @@
 
 #include "./core/inventory.h"
 #include "./Units/Player.c"
-#include "./core/npc.c"
 #include "./functions/Action.c"
 
 int main(int argc, char *argv[]){
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 8359dccd086f650492343bd434fe7903dcbb627e
     int action;
     int validAction;
 
@@ -39,7 +42,7 @@ int main(int argc, char *argv[]){
             }
         case 2:
 
-            runGame(player ,map, NPC_inventory );
+            runGame(player,map,NPC_inventory);
             break;
 
     }
