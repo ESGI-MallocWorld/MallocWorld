@@ -145,7 +145,7 @@ newItem=initItem(val);
 
 int verifyInInventory(inventory* inv1, int id, int amount){ //verify if the resources are in the inventory
 
-    while (inv1->next != NULL){
+    while (inv1!= NULL){
         if (inv1->inv->item->id==id)
         {
             if (inv1->inv->stock>=amount)
@@ -177,8 +177,14 @@ return verifyInInventory(inv1,id,amount);;
 }
 
 inventory* deleteNode(inventory* inv1){ //move from one node to the next one if not null
+
+    inventory * tempInv= malloc(sizeof(inventory));
     inv1=inv1->next;
-    return inv1;
+    tempInv=inv1;
+    tempInv=tempInv->next;
+    free(inv1);
+    return tempInv;
+    
 }
 
 int deleteItemFromCraft(inventory* inv1, int id, int amount){ //delete resources used
@@ -331,3 +337,7 @@ void startNPC(inventory* invPlayer, inventory* invNPC){
 
 
 }
+
+/*void main (int argc, char *argv[]){
+
+}*/
