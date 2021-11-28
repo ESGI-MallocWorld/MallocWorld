@@ -38,6 +38,7 @@ typedef struct Player{
      void (*setLocation)(Player *this, int *val);
      void (*setInventory)(Player *this ,inventory *Inventory);
 
+
      //method
      void (*levelUp)(Player *this );
      void (*displayStats)(Player *this);

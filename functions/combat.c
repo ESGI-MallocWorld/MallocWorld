@@ -49,7 +49,7 @@ Item* chooseArmor(Player* player){
         printf("Pick the armor with which you want to fight the monster and insert its number\n");
         scanf("%d", armorID);
         Item* armorTemp = getItemfromID(armorID);
-        inventory* armorInv = checkIfItemPresent(armorTemp, player->inventory);
+        inventory* armorInv = getInventoryByItem(armorTemp, player->inventory);
         armor = armorInv->inv->item;
         free(armorTemp);
         if(armor->itemType != Armor){
@@ -70,7 +70,7 @@ Item* choosePotion(Player* player){
         printf("Pick the potion you want to drink and enter its ID\n");
         scanf("%d", PotionID);
         Item* potionTemp = getItemfromID(PotionID);
-        inventory* potionInv = checkIfItemPresent(potionTemp, player->inventory);
+        inventory* potionInv = getInventoryByItem(potionTemp, player->inventory);
         potion = potionInv->inv->item;
         if(potion->itemType != Potion){
             printf("The ID you entered is not the one of a potion.\n");
