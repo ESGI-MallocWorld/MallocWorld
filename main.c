@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "./core/importExport.c"
+//#include "./core/importExport.c"
 #include "./core/inventory.h"
 #include "./Units/Player.c"
 #include "./functions/Action.c"
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     Player* player;
     map *map;
     inventory* NPC_inventory = malloc(sizeof(inventory));
-    NPC_inventory = newInventory();
+//    NPC_inventory = newInventory();
 
     do {
         validAction = 1;

@@ -205,7 +205,7 @@ void addEnemies(map* map) {
     limit = getMapMaxEnemies(map);
     zone1 = map->mapData;
 
-    for (int i = 0; i < 1; ++i) {
+    for (int i = 0; i < 10; ++i) {
         loc = getValidLocation(map);
         x = loc[0];
         y = loc[1];

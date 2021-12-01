@@ -8,8 +8,8 @@
 #include "./playerMouvement.c"
 #include "../Units/enemis.h"
 //#include "../core/inventory.h"
-#include "combat.h"
-#include "../core/npc.c"
+//#include "combat.h"
+//#include "../core/npc.c"
 
 void addResource();
 
@@ -65,7 +65,7 @@ void runGame(Player* player ,map *map, inventory* NPC_inventory){
         }else if(isResource(element)){
             //claim
         }else if(isNPC(element)){
-            startNPC(player->getInventory(player),NPC_inventory);
+//            startNPC(player->getInventory(player),NPC_inventory);
         }
 
         printf("target location X : %d , Y : %d , Element :%d \n",Y,X,element);

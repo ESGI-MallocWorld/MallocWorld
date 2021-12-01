@@ -6,8 +6,7 @@
 #define MALLOCWORLD_INVENTORY_H
 
 #include <stdlib.h>
-#include "itemsUnified.h"
-
+#include "itemsUnified.c"
 
 /*
 * The inventory of the player can  have a maximum stock of 20 for the resources and only 1 for the other items

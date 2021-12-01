@@ -1,9 +1,10 @@
-#include"inventory.h"
 
 
 #ifndef MALLOCWORLD_NPC_H
 #define MALLOCWORLD_NPC_H
-
+#include"inventory.h"
+#include "npc.c"
+#include"itemsUnified.c"
 
 inventory* newInventory();
 

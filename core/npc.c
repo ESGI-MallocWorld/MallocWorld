@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include"inventory.h"
-#include"itemsUnified.c"
+
 
 inventory* newInventory(){ // create a new inventory 
     printf("test fonction newInventory \n");
